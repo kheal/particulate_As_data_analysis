@@ -3,8 +3,11 @@ title: "Control data analysis workbook"
 output: html_notebook
 ---
 
-# Organize and explore the ICAP data
-
+# Tidy up ICAP data
+This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
 ```{r, warning=FALSE, message = FALSE}
-
+source("SourceCode/extract_and_organize_ICAPdata09012020.R")
 ```
+
+Next steps, plot out a few samples and decide which time block to use for getting values
+Make a list of samples that I think I can get decent data for
