@@ -12,11 +12,10 @@ elements_to_analyze = c("75As", "77Se", "78Se","103Rh")
 #Loop through each file to pivot and clean up a bit
 for (i in 1:length(files_to_pivot)){
   
-  dat_filename <-paste0("RawDat/ICAP_run_20200901/Originals/", files_to_pivot[i])
+  dat_filename <-paste0("RawDat/ICAP_run_20200901/FixedNames/", files_to_pivot[i])
   
   # Read in first data file
-  dat <- read_delim(dat_filename, 
-                    ";", escape_double = FALSE, trim_ws = TRUE, skip = 1)
+  dat <- read_csv(dat_filename, skip = 1)
   
   # Mundge into a usable shape, add some much needed column names
   dat2 <- dat %>%
@@ -24,6 +23,10 @@ for (i in 1:length(files_to_pivot)){
     rename(scan = X2,
            element = X3,
            value = X4)
+  if (i==1){
+    dat3<- dat2[c(1:3,13:28)]
+  }
+  
   
   #Initialize an empty list that we'll fill with dfs of each element we're analyzing
   dat_pivoted = list()
@@ -51,7 +54,8 @@ for (i in 1:length(files_to_pivot)){
     dat_pivoted[[j]] <- dat2_sub_long
   }
   dat_pivoted_df <- do.call(rbind, dat_pivoted) %>%
-    mutate(samplerun = files_to_pivot[i])
+    mutate(samplerun = files_to_pivot[i]) %>%
+    mutate(sampleID = str_replace_all(sampleID, "-", "_"))
   
   output_filename = paste0("RawDat/ICAP_run_20200901/Pivoted/", files_to_pivot[i])
   write_csv(dat_pivoted_df, output_filename)
