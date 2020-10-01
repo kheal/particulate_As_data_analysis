@@ -82,10 +82,6 @@ g.HCl.curves.log <- ggplot(dat.curves.all%>%
 
 g.HCl.curves.log
 
-save_plot("Figures/ManuscriptReady/HCl_curves_loglog.pdf", g.HCl.curves.log, device = "pdf", base_width =  5, base_height = 3, units = "in")
-
-
-
 
 #Plots exploring the relationship between 75As concentration, 75As signal, and %MeOH-----
 dat.MeOH <- dat %>%
@@ -119,22 +115,27 @@ dat.blankcorrect.MeOH <- dat.MeOH %>%
 dat.curves.all.MeOH<- rbind(dat.raw.MeOH, dat.77correct.MeOH) %>%
   rbind(dat.blankcorrect.MeOH) 
 
-#Plot it up!
-g.MeOH.curves <- ggplot(dat.curves.all.MeOH, aes(x =  `[As]_ppb`, y = Signal, color = factor(`%MeOH`))) +
-  geom_point()+
-  geom_line()+
-  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free")
+dat.curves.all.MeOH <- dat.curves.all.MeOH %>%
+  mutate(sig_type = factor(dat.curves.all.MeOH$sig_type, levels = c("raw", "77Correction", "blankCorrected"))) %>%
+  mutate(Mode = factor(dat.curves.all.MeOH$Mode, levels = c("Std", "KED")))
 
-g.MeOH.curves
-
-
+#Plot it up!-------
 g.MeOH.curves.log <- ggplot(dat.curves.all.MeOH%>%
                              filter(Signal > 0) %>%
-                             filter(`[As]_ppb` > 0.05), aes(x =  `[As]_ppb`, y = Signal, color = factor(`%MeOH`))) +
-  geom_point()+
-  geom_line()+
-  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free")+
-  scale_x_log10()+scale_y_log10()
+                             filter(`[As]_ppb` > 0.005), aes(x =  `[As]_ppb`, y = Signal, color = factor(`%MeOH`))) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method = "lm", size = 1.5)+
+  geom_point(size = 2)+
+  scale_color_manual(name="% MeOH",
+                     values = c("grey20", pal))+
+  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free", 
+             labeller = labeller(sig_type = sigtype.labs))+
+  scale_x_log10()+scale_y_log10()+
+  theme(strip.background = element_blank(),
+        strip.text = element_text(size = 7),
+        axis.title = element_text(size = 7),
+        axis.text = element_text(size = 6),
+        legend.title = element_text(size = 7),
+        legend.text = element_text(size = 6))
 
 g.MeOH.curves.log
 
@@ -158,4 +159,11 @@ dat.HCl.summary.stats <- dfHClCoef %>%
   left_join(dfHClSumm, 
             by = c("Mode", "percentHCl", "sig_type"))
   
+
+#Save out plots
+save_plot("Figures/ManuscriptReady/HCl_curves_loglog.pdf", g.HCl.curves.log, device = "pdf", base_width =  5, base_height = 3, units = "in")
+
+
+save_plot("Figures/ManuscriptReady/MeOH_curves_loglog.pdf", g.MeOH.curves.log, device = "pdf", base_width =  5, base_height = 3, units = "in")
+
   
