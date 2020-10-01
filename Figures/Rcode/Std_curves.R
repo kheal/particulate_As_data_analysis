@@ -1,10 +1,12 @@
 library(here)
 library(tidyverse)
 library(cowplot)
+theme_set(theme_cowplot())
 library(broom)
 library(wesanderson)
 
-#TO DO: Check the slopes etc on the different sig_types from the %HCl things.  Doesn't really make sense
+#TO DO: Check the slopes etc on the different sig_types from the %HCl
+#TO DO: Check units - is this really ppb?  Or is it nMol
 
 dat.file <- "Intermediates/Std_curves_variableHClandMeOH.csv"
 
@@ -51,53 +53,36 @@ dat.curves.all <- rbind(dat.raw, dat.77correct) %>%
   rbind(dat.blankcorrect) 
 
 dat.curves.all <- dat.curves.all %>%
-  mutate(sig_type = factor(dat.curves.all$sig_type, levels = c("raw", "77Correction", "blankCorrected")))
+  mutate(sig_type = factor(dat.curves.all$sig_type, levels = c("raw", "77Correction", "blankCorrected"))) %>%
+  mutate(Mode = factor(dat.curves.all$Mode, levels = c("Std", "KED")))
 
 #Get nice names for facets
-sigtype.labs <- c("uncorrected 75As", "corrected by 77Se signal", "corrected by blank subtraction")
-names(sigtype.labs) <- c("raw", "77Correction", "blankCorrected")
+sigtype.labs <- c("uncorrected \n 75As", "corrected by \n77Se signal", "corrected by \nblank subtraction")
+names(sigtype.labs) <- c("raw", "77Correction",
+                         "blankCorrected")
 
 
 #Plot it up!
-#TO DO: better colors
-pal <- wes_palette("Zissou1", 4, type = "continuous")
-g.HCl.curves <- ggplot(dat.curves.all, aes(x =  `[As]_ppb`, y = Signal, color = factor(`%HCl`))) +
-  geom_point()+
-  geom_smooth(method = "lm", se=FALSE)+
-  geom_hline(aes(yintercept = 0), color = "grey50")+
-  scale_color_manual(name="% HCl",
-                       values = pal)+
-  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free", 
-             labeller = labeller(sig_type = sigtype.labs))+
-  theme(strip.background = element_blank(),
-        strip.text = element_text(size = 8),
-        axis.title = element_text(size = 8),
-        axis.text = element_text(size = 7),
-        legend.title = element_text(size = 8),
-        legend.text = element_text(size = 7))
-
-g.HCl.curves
-
-
 g.HCl.curves.log <- ggplot(dat.curves.all%>%
                              filter(Signal > 0) %>%
-                             filter(`[As]_ppb` > 0.05), aes(x =  `[As]_ppb`, y = Signal, color = factor(`%HCl`))) +
-  geom_point()+
-  geom_smooth(method = "lm", se=FALSE)+
+                             filter(`[As]_ppb` > 0.005), aes(x =  `[As]_ppb`, y = Signal, color = factor(`%HCl`))) +
+  stat_smooth(geom='line', alpha=0.5, se=FALSE, method = "lm", size = 1.5)+
+  geom_point(size = 2)+
   scale_color_manual(name="% HCl",
                      values = pal)+
-  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free")+
+  facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free", 
+             labeller = labeller(sig_type = sigtype.labs))+
   scale_x_log10()+scale_y_log10()+
   theme(strip.background = element_blank(),
-        strip.text = element_text(size = 8),
-        axis.title = element_text(size = 8),
-        axis.text = element_text(size = 7),
-        legend.title = element_text(size = 8),
-        legend.text = element_text(size = 7))
+        strip.text = element_text(size = 7),
+        axis.title = element_text(size = 7),
+        axis.text = element_text(size = 6),
+        legend.title = element_text(size = 7),
+        legend.text = element_text(size = 6))
 
 g.HCl.curves.log
 
-ggsave(g.HCl.curves, "Figures/ManuscriptReady/HCl_curves_linear.pdf")
+save_plot("Figures/ManuscriptReady/HCl_curves_loglog.pdf", g.HCl.curves.log, device = "pdf", base_width =  5, base_height = 3, units = "in")
 
 
 
