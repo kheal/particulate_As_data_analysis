@@ -23,10 +23,6 @@ for (i in 1:length(files_to_pivot)){
     rename(scan = X2,
            element = X3,
            value = X4)
-  if (i==1){
-    dat3<- dat2[c(1:3,13:28)]
-  }
-  
   
   #Initialize an empty list that we'll fill with dfs of each element we're analyzing
   dat_pivoted = list()
