@@ -1,6 +1,6 @@
 #Load your libraries
 library(tidyverse)
-library(broom)
+library(modelr)
 
 
 # direct to folder with pivoted data
@@ -18,6 +18,11 @@ meta_dat <- read_csv(meta_dat_filename)%>%
   mutate(descript_ID = paste0(`Sample ID`, Replicate, `Fraction ID`)) %>%
   select(LC_ID, descript_ID, samplerun) %>%
   rename(sampleID = LC_ID)
+
+meta_dat_more <- read_csv(meta_dat_filename)%>%
+  mutate(descript_ID = paste0(`Sample ID`, Replicate, `Fraction ID`)) %>%
+  rename(sampleID = LC_ID) %>%
+  select(descript_ID, samplerun, sampleID, `Sample size (L)`, Reconst_volume_mL)
 
 descript_ID <- unique(meta_dat$descript_ID)
 
@@ -60,10 +65,19 @@ dat_corrected_stds <- dat_as_pooled_77_corrected %>%
            str_extract("[^Std_nM]+") %>% as.numeric()) %>%
   filter(concentration_nM == 0 | concentration_nM >= 1)
 
-
-# Got to here - RF calcuations still underway !
-RFs <- dat_corrected_stds %>%
+# Calculating RF and intercept
+df <- dat_corrected_stds %>%
   group_by(samplerun) %>%
-  do(model = lm(concentration_nM ~ Signal, data = .)) 
+  summarise(slope = coef(lm(Signal ~ concentration_nM, data = .))[["concentration_nM"]][1],
+     intercept = lm(Signal ~ concentration_nM, data = .)[[1]][[1]][[1]]) %>%
+  ungroup() %>%
+  summarise(slope = mean(slope),
+            intercept = mean(intercept))
 
-  
+
+# calculate concentrations
+dat_quan_1 <- dat_as_pooled_77_corrected %>%
+  mutate(nM_in_vial = (Signal - df$intercept[1])/df$slope[1]) %>%
+  filter(str_detect(descript_ID, "ulk" )) %>%
+  left_join(meta_dat_more, by = c("sampleID", "samplerun", "descript_ID")) %>%
+  mutate(enviro_nM = nM_in_vial*Reconst_volume_mL/1000/`Sample size (L)`)
