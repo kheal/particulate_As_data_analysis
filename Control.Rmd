@@ -3,10 +3,43 @@ title: "Control data analysis workbook"
 output: html_notebook
 ---
 
-# Tidy up ICAP data
+# Data analysis chunks
+## Tidy up ICAP data
 This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/extract_and_organize_ICAPdata09012020.R")
 ```
 
+## Calculate bulk concentrations
+Calculates the bulk concentrations of the environmental samples
+Writes this out into Intermediates/ 
+```{r, warning=FALSE, message = FALSE}
+source("SourceCode/extract_and_organize_ICAPdata09012020.R")
+```
+#
+# Figures
+## Standard curve figures
+Writes 2 figures into Figures/ManuscriptReady
+```{r, warning=FALSE, message = FALSE}
+source("Figures/Rcode/Std_curves.R")
+```
 
+## Preliminary figure of lipid ICAP chromats
+Writes 1 figures into Figures/Preliminary
+```{r, warning=FALSE, message = FALSE}
+source("Figures/Rcode/Lipid_Exploratory_Plots.R")
+```
+#
+# Tables
+## Sample overview
+Writes sample overview table into Tables/ManuscriptReady
+```{r, warning=FALSE, message = FALSE}
+source("Tables/Rcode/Sample_descriptions.R")
+```
+
+## Table of bulk concentrations
+Working on this as of 10/12/20
+```{r, warning=FALSE, message = FALSE}
+source("Tables/Rcode/Quantitative_overview.R")
+```
+#

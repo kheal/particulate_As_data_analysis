@@ -81,3 +81,5 @@ dat_quan_1 <- dat_as_pooled_77_corrected %>%
   filter(str_detect(descript_ID, "ulk" )) %>%
   left_join(meta_dat_more, by = c("sampleID", "samplerun", "descript_ID")) %>%
   mutate(enviro_nM = nM_in_vial*Reconst_volume_mL/1000/`Sample size (L)`)
+
+write_csv(dat_quan_1, "Intermediates/bulk_quantification.csv")

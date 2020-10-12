@@ -1749,8 +1749,10 @@ summary {
 
 
 <!-- rnb-text-begin -->
-<div id="tidy-up-icap-data" class="section level1">
-<h1>Tidy up ICAP data</h1>
+<div id="data-analysis-chunks" class="section level1">
+<h1>Data analysis chunks</h1>
+<div id="tidy-up-icap-data" class="section level2">
+<h2>Tidy up ICAP data</h2>
 <p>This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
@@ -1759,10 +1761,81 @@ summary {
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="calculate-bulk-concentrations" class="section level2">
+<h2>Calculate bulk concentrations</h2>
+<p>Calculates the bulk concentrations of the environmental samples Writes this out into Intermediates/</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTA5MDEyMDIwLlJcIilcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;SourceCode/extract_and_organize_ICAPdata09012020.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+</div>
+<div id="figures" class="section level1">
+<h1>Figures</h1>
+<div id="standard-curve-figures" class="section level2">
+<h2>Standard curve figures</h2>
+<p>Writes 2 figures into Figures/ManuscriptReady</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlJcIilcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;Figures/Rcode/Std_curves.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="preliminary-figure-of-lipid-icap-chromats" class="section level2">
+<h2>Preliminary figure of lipid ICAP chromats</h2>
+<p>Writes 1 figures into Figures/Preliminary</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SXCIpXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;Figures/Rcode/Lipid_Exploratory_Plots.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="section-1" class="section level1">
+<h1></h1>
+</div>
+<div id="tables" class="section level1">
+<h1>Tables</h1>
+<div id="sample-overview" class="section level2">
+<h2>Sample overview</h2>
+<p>Writes sample overview table into Tables/ManuscriptReady</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;Tables/Rcode/Sample_descriptions.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="table-of-bulk-concentrations" class="section level2">
+<h2>Table of bulk concentrations</h2>
+<p>Working on this as of 10/12/20</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1F1YW50aXRhdGl2ZV9vdmVydmlldy5SXCIpXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;Tables/Rcode/Quantitative_overview.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="section-2" class="section level1">
+<h1></h1>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIFRpZHkgdXAgSUNBUCBkYXRhClRoaXMgY29kZSB0YWtlcyBpbiBjb21iaW5lZCAuY3N2IGZpbGVzIGZyb20gdGhlIElDQVAgKHdpdGggWSBhbmQgdGltZSksIHRpZGllcyB0aGVtIHVwIGEgYml0IGFuZCB3cml0ZXMgb3V0IG5ldyBmaWxlcyBhbmQgd3JpdGVzIHRoZW0gaW4gdG8gdGhlIHBpdm90ZWQgZm9sZGVyIHdpdGhpbiByYXdkYXQKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL2V4dHJhY3RfYW5kX29yZ2FuaXplX0lDQVBkYXRhMDkwMTIwMjAuUiIpCmBgYAoKCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIERhdGEgYW5hbHlzaXMgY2h1bmtzCiMjIFRpZHkgdXAgSUNBUCBkYXRhClRoaXMgY29kZSB0YWtlcyBpbiBjb21iaW5lZCAuY3N2IGZpbGVzIGZyb20gdGhlIElDQVAgKHdpdGggWSBhbmQgdGltZSksIHRpZGllcyB0aGVtIHVwIGEgYml0IGFuZCB3cml0ZXMgb3V0IG5ldyBmaWxlcyBhbmQgd3JpdGVzIHRoZW0gaW4gdG8gdGhlIHBpdm90ZWQgZm9sZGVyIHdpdGhpbiByYXdkYXQKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL2V4dHJhY3RfYW5kX29yZ2FuaXplX0lDQVBkYXRhMDkwMTIwMjAuUiIpCmBgYAoKIyMgQ2FsY3VsYXRlIGJ1bGsgY29uY2VudHJhdGlvbnMKQ2FsY3VsYXRlcyB0aGUgYnVsayBjb25jZW50cmF0aW9ucyBvZiB0aGUgZW52aXJvbm1lbnRhbCBzYW1wbGVzCldyaXRlcyB0aGlzIG91dCBpbnRvIEludGVybWVkaWF0ZXMvIApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEwOTAxMjAyMC5SIikKYGBgCiMKIyBGaWd1cmVzCiMjIFN0YW5kYXJkIGN1cnZlIGZpZ3VyZXMKV3JpdGVzIDIgZmlndXJlcyBpbnRvIEZpZ3VyZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlIiKQpgYGAKCiMjIFByZWxpbWluYXJ5IGZpZ3VyZSBvZiBsaXBpZCBJQ0FQIGNocm9tYXRzCldyaXRlcyAxIGZpZ3VyZXMgaW50byBGaWd1cmVzL1ByZWxpbWluYXJ5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SIikKYGBgCiMKIyBUYWJsZXMKIyMgU2FtcGxlIG92ZXJ2aWV3CldyaXRlcyBzYW1wbGUgb3ZlcnZpZXcgdGFibGUgaW50byBUYWJsZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUiIpCmBgYAoKIyMgVGFibGUgb2YgYnVsayBjb25jZW50cmF0aW9ucwpXb3JraW5nIG9uIHRoaXMgYXMgb2YgMTAvMTIvMjAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJUYWJsZXMvUmNvZGUvUXVhbnRpdGF0aXZlX292ZXJ2aWV3LlIiKQpgYGAKIw==</div>
 
 
 
