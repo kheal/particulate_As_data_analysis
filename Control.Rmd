@@ -3,6 +3,9 @@ title: "Control data analysis workbook"
 output: html_notebook
 ---
 
+# Database creation chunks
+## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, 
+
 # Data analysis chunks
 ## Tidy up ICAP data
 This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
