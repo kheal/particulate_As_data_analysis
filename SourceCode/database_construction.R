@@ -5,7 +5,7 @@ library(Rdisop)
 # AsFAs-----
 # define tail length and saturation possibilities 
 tail_length1 <- c(7:21)
-saturation_num1 <- c(0:6)
+saturation_num1 <- c(0:8)
 
 # construct the df
 FA_db <- expand.grid(tail_length1, saturation_num1) 

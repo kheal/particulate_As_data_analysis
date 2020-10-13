@@ -4,7 +4,11 @@ output: html_notebook
 ---
 
 # Database creation chunks
-## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, 
+## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC and a few extras, split it up into smaller and larger masses to use for the inclusion list
+```{r, warning=FALSE, message = FALSE}
+source("SourceCode/database_construction.R")
+```
+
 
 # Data analysis chunks
 ## Tidy up ICAP data

@@ -21,7 +21,7 @@ quan_dat2 <- quan_dat %>%
                                      "BATS", 
                                      ifelse(str_detect(descript_ID, "ALOHA.bulk"),
                                             "ALOHA", NA)))) %>%
-  mutate(Sample = Sample %>% str_replace("_", "-"))
+  mutate(Sample = Sample %>% str_replace("_", "-")) %>%
   mutate(replicate = str_extract(descript_ID, ".bulk") %>%
            str_remove("bulk")) 
 
