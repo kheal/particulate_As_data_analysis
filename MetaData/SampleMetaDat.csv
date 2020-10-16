@@ -1,6 +1,6 @@
-﻿Sample ID,Latitude,Longitude,Date_Collected,L_Filtered,Filter_Set_Up,L_extracted,L_digested,n_digested,Notes,Ashley_sampID
-ALOHA,22.75,-158,190621,747,53-0.3,373.5,3.697260893,3,blank analyzed,
-ETNP_PS2,15.77,-103,180403,450,53-0.3,196.2266695,2.227265598,3,,56
-ETNP_PS3,17.68,-102.35,180412,193,53-0.3,86.05898191,0.955249468,3,,73
-ETNP_PS1,10,-113,180323,488,53-0.7,217.5999128,2.415345804,3,0.7-0.3 also analyzed,37
-BATS,31.66,-64.167,190608,225,53-0.7,104.91432,1.677,3,0.7-0.3 also analyzed,5a
+﻿Sample ID,Latitude,Longitude,Date_Collected,L_Filtered,Filter_Set_Up,L_extracted,L_digested,n_digested,Notes,Ashley_sampID,PC_uMperL_mean,PC_uMperL_stdev
+ALOHA,22.75,-158,190621,747,53-0.3,373.5,3.697260893,3,blank analyzed,,2.48,0.398
+ETNP-PS2,15.77,-103,180403,450,53-0.3,196.2266695,2.227265598,3,,56,1.2,
+ETNP-PS3,17.68,-102.35,180412,193,53-0.3,86.05898191,0.955249468,3,,73,8.3,
+ETNP-PS1,10,-113,180323,488,53-0.7,217.5999128,2.415345804,3,0.7-0.3 also analyzed,37,4.1,
+BATS,31.66,-64.167,190608,225,53-0.7,104.91432,1.677,3,0.7-0.3 also analyzed,5a,5.3,

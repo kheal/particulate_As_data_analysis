@@ -13,8 +13,7 @@ samp.info.short <- samp.info %>%
          `Filter set up (\\textmu m)` = Filter_Set_Up,
          `Volume (L)` = L_Filtered,
          `Volume extracted for speciation (L)` = L_extracted,
-         `Volume extracted for As digestion (L)` = L_digested) %>%
-  mutate(Sample = Sample %>% str_replace_all("_PS", "-PS"))
+         `Volume extracted for As digestion (L)` = L_digested) 
          
 
 table.latex <- xtable(samp.info.short, sanitize.text.function = identity)

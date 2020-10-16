@@ -8,7 +8,8 @@ meta_dat_file <- "MetaData/SampleMetaDat.csv"
 quan_dat_file <- "Intermediates/bulk_quantification.csv"
 
 # Load files
-meta_dat <- read_csv(meta_dat_file)
+meta_dat <- read_csv(meta_dat_file) %>% rename(Sample = `Sample ID`) %>%
+  select(Sample, PC_uMperL_mean)
 quan_dat <- read_csv(quan_dat_file)
 
 #Mundge sample names
@@ -26,15 +27,21 @@ quan_dat2 <- quan_dat %>%
            str_remove("bulk")) 
 
 quan_dat3 <- quan_dat2 %>%
+  left_join(meta_dat) %>%
+  mutate(nMAsperuMC = enviro_nM/PC_uMperL_mean) %>%
   group_by(Sample) %>%
   summarise(`ave` = round(mean(enviro_nM)*1000, digits = 1),
-            stdev = round(sd(enviro_nM)*1000,  digits = 1)) %>%
-  mutate(`particulate As (pM)` = paste0(ave, "  $\\pm$", stdev)) %>%
-  select(-ave, -stdev) 
+            stdev = round(sd(enviro_nM)*1000,  digits = 1),
+            `aveperC` = round(mean(nMAsperuMC)*1000, digits = 1),
+            stdevperC = round(sd(nMAsperuMC)*1000,  digits = 1)) %>%
+  mutate(`particulate As (pM)` = paste0(ave, "  $\\pm$ ",stdev)) %>%
+  mutate(`particulate As/C ($x$10\\textsuperscript{6})` = paste0(aveperC, "  $\\pm$ ", stdevperC)) %>%
+  select(-(ave:stdevperC) )
+
 
 table.latex <- xtable(quan_dat3, sanitize.text.function = identity)
 caption(table.latex) <- "\\label{QuanSummaryTable}Summary of quantitative results of particulate arsenic."
-align(table.latex) <- c("p{0.1cm}","p{1.2cm}", "p{2cm}")
+align(table.latex) <- c("p{0.1cm}","p{1.2cm}", "c{2cm}", "c{2cm}")
 
 print(table.latex, type="latex", 
       file="Tables/ManuscriptReady/QuantitativeSummary.tex",
