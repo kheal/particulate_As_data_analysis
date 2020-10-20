@@ -61,7 +61,8 @@ dat_to_plot <- dat_to_plot_elute %>%
 
 plots[[i]] <- ggplot(data = dat_to_plot, aes(x = Time,  y = Intensity, color = ID)) +
   geom_line() + 
-    ggtitle(samps_from_files1_crude[i])
+    ggtitle(samps_from_files1_crude[i])+
+  theme(legend.position = "none")
 }
 
 
@@ -106,7 +107,8 @@ for (i in 1:length(samps_from_files2_crude)){
   
   plots_2[[i]] <- ggplot(data = dat_to_plot, aes(x = Time,  y = Intensity, color = ID)) +
     geom_line() + 
-    ggtitle(samps_from_files2_crude[i])
+    ggtitle(samps_from_files2_crude[i])+
+    theme(legend.position = "none")
 }
 
 
@@ -115,6 +117,6 @@ for (i in 1:length(samps_from_files2_crude)){
 plot_save_1 <- plot_grid(plots[[1]], plots[[2]], plots[[3]], ncol = 1)
 plot_save_2 <- plot_grid(plots_2[[1]], plots_2[[2]], plots_2[[3]], ncol = 1)
 
-save_plot("Figures/Preliminary/As_traces_1.pdf", plot_save_1, base_width = 8, base_height = 12, units = "in")
-save_plot("Figures/Preliminary/As_traces_2.pdf", plot_save_2, base_width = 8, base_height = 12, units = "in")
+save_plot("Figures/Preliminary/As_traces_1.pdf", plot_save_1, base_width = 4, base_height = 8, units = "in")
+save_plot("Figures/Preliminary/As_traces_2.pdf", plot_save_2, base_width = 4, base_height = 8, units = "in")
 

@@ -2,6 +2,6 @@
 .RData*
 MetaData/SampleKey20200901.gsheet
 .Rproj*
-.Rproj.user/*
+.Rproj.user/
 .Rproj.user
 RawDat/20200120_QEdata_firstLipidRun/
