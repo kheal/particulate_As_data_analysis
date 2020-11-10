@@ -14,15 +14,20 @@ source("SourceCode/database_construction.R")
 ## Tidy up ICAP data
 This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
 ```{r, warning=FALSE, message = FALSE}
-source("SourceCode/extract_and_organize_ICAPdata09012020.R")
+source("SourceCode/extract_and_organize_ICAPdata09012020.R") #first run of Aslipids
+source("SourceCode/extract_and_organize_ICAPdata201026.R") #first run of Aslipids
 ```
 
 ## Calculate bulk concentrations
-Calculates the bulk concentrations of the environmental samples
+Gets peak areas of As peaks in ICPMS data files
 Writes this out into Intermediates/ 
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/extract_and_organize_ICAPdata09012020.R")
 ```
+
+
+
+
 #
 # Figures
 ## Standard curve figures
@@ -36,6 +41,10 @@ Writes 1 figures into Figures/Preliminary
 ```{r, warning=FALSE, message = FALSE}
 source("Figures/Rcode/Lipid_Exploratory_Plots.R")
 ```
+
+
+
+
 #
 # Tables
 ## Sample overview
