@@ -2,7 +2,8 @@ library(tidyverse)
 
 # Set file names ----
 files_to_pivot <- c("2020_10_26_Heal_AsLipidswB12_1.csv", 
-                    "2020_10_26_Heal_AsLipidswB12_2.csv")
+                    "2020_10_26_Heal_AsLipidswB12_2.csv", 
+                    "2020_10_26_Heal_AsLipidswB12_3.csv")
 elements_to_analyze = c("75As", "77Se", "78Se","103Rh")
 
 
@@ -55,4 +56,5 @@ for (i in 1:length(files_to_pivot)){
   output_filename = paste0("RawDat/20201026_icapdata_secondLipidRun/Pivoted/", files_to_pivot[i])
   write_csv(dat_pivoted_df, output_filename)
 }
+
 

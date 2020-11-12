@@ -15,17 +15,17 @@ source("SourceCode/database_construction.R")
 This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/extract_and_organize_ICAPdata09012020.R") #first run of Aslipids
-source("SourceCode/extract_and_organize_ICAPdata201026.R") #first run of Aslipids
+source("SourceCode/extract_and_organize_ICAPdata201026.R") #second run of Aslipids
 ```
 
 ## Calculate bulk concentrations
 Gets peak areas of As peaks in ICPMS data files
-Writes this out into Intermediates/ 
+Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 ```{r, warning=FALSE, message = FALSE}
-source("SourceCode/extract_and_organize_ICAPdata09012020.R")
+source("SourceCode/get_peak_areas_201026.R") #second run of Aslipids
 ```
 
-
+## Identify peaks
 
 
 #
