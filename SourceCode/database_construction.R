@@ -7,7 +7,6 @@ library(Rdisop)
 tail_length1 <- c(7:21)
 saturation_num1 <- c(0:8)
 
-# construct the df
 FA_db <- expand.grid(tail_length1, saturation_num1) 
 colnames(FA_db) <- c("tail_length1", "saturation_num1")
 
@@ -20,17 +19,20 @@ FA_db <- FA_db %>%
   mutate(EmpiricalFormula_MH = paste0("AsO3", "C", 
                                       tail_length1+3, "H", 
                                     2*tail_length1-2*saturation_num1+8)) %>%
- mutate(mz = sapply(EmpiricalFormula_MH, 
+  mutate(mz = sapply(EmpiricalFormula_MH, 
                   function(x)getMolecule(x)$exactmass)) %>%
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                   function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
   mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, mz)
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C)
 
 # AsHCs----
 # define tail length and saturation possibilities 
 tail_length1 <- c(13:30)
 saturation_num1 <- c(0:6)
 
-# construct the df
 HC_db <- expand.grid(tail_length1, saturation_num1) 
 colnames(HC_db) <- c("tail_length", "saturation_num1")
 
@@ -45,8 +47,13 @@ HC_db <- HC_db %>%
                                    2*tail_length1-2*saturation_num1+8)) %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
   mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, mz)
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C)
+
 
 # AsPls  ----
 # define tail length and saturation possibilities 
@@ -55,7 +62,6 @@ tail_length2 <- c(11:19)
 saturation_num1 <- c(0:4)
 saturation_num2 <- c(0:4)
 
-# construct the df
 SugPL_db <- expand.grid(tail_length1, saturation_num1, 
                       tail_length2, saturation_num2) 
 colnames(SugPL_db) <- c("tail_length1", "saturation_num1", 
@@ -78,8 +84,13 @@ SugPL_db <- SugPL_db %>%
                                    +29)) %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
-  mutate(Lipid_Name = paste0(LipidClass, round(mz-.3, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, EmpiricalFormula, mz) %>% unique()
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
+  mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C) %>% 
+  unique()
 
 
 
@@ -88,7 +99,6 @@ SugPL_db <- SugPL_db %>%
 tail_length1 <- c(11:19)
 saturation_num1 <- c(0:4)
 
-# construct the df
 lysoSugPL_db <- expand.grid(tail_length1, saturation_num1) 
 colnames(lysoSugPL_db) <- c("tail_length1", "saturation_num1")
 
@@ -109,8 +119,13 @@ lysoSugPL_db <- lysoSugPL_db %>%
                                    +29)) %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
-  mutate(Lipid_Name = paste0(LipidClass, round(mz-.3, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, EmpiricalFormula, mz) %>% unique()
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
+  mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C) %>% 
+  unique()
 
 
 
@@ -144,8 +159,13 @@ AsPC_db <- AsPC_db %>%
                                    +26)) %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
-  mutate(Lipid_Name = paste0(LipidClass, round(mz-.3, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, EmpiricalFormula, mz) %>% unique()
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
+  mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C) %>% 
+  unique()
 
 
 
@@ -155,8 +175,14 @@ extra_db <- read_csv("MetaData/AsLipidDatabase/Extra_entries.csv")
 extra_db <- extra_db %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
-  mutate(Lipid_Name = paste0(LipidClass, round(mz-.3, digits = 0)-1)) %>%
-  select(LipidClass, Lipid_Name, EmpiricalFormula, mz) %>% unique()
+  mutate(mz_13C = sapply(EmpiricalFormula_MH, 
+                         function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
+  mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
+  mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
+  select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C) %>% 
+  unique()
+
 
 # Combine and save out MS1 database to use as inclusion list ------
 combine_db <- FA_db %>%
