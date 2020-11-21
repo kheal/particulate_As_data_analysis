@@ -4,10 +4,12 @@ output: html_notebook
 ---
 
 # Database creation chunks
-## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC and a few extras, split it up into smaller and larger masses to use for the inclusion list
+## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different righ tnow) and a few extras, split it up into smaller and larger masses to use for the inclusion list
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/database_construction.R")
 ```
+
+https://www.bioconductor.org/packages/devel/bioc/vignettes/CluMSID/inst/doc/CluMSID_tutorial.html
 
 
 # Data analysis chunks
@@ -25,7 +27,11 @@ Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 source("SourceCode/get_peak_areas_201026.R") #second run of Aslipids
 ```
 
-## Identify peaks
+## First attempt to ID peaks, based on MS1 only
+```{r, warning=FALSE, message = FALSE}
+
+```
+
 
 
 #

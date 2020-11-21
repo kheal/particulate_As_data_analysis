@@ -1,8 +1,11 @@
 ####### This code finds peaks on ICPMS data and calculates each peak area, based on Jiwoon's code
 
 # Load appropriate libraries ---
-library(tidyverse)
 library(baseline)
+library(signal)
+library(tidyverse)
+detach("package:dplyr")
+library(dplyr)
 
 # Load functions ---
 g <- function (x) {
@@ -15,7 +18,8 @@ files_to_analyze <- c("2020_10_26_Heal_AsLipidswB12_1.csv",
                       "2020_10_26_Heal_AsLipidswB12_2.csv", 
                     "2020_10_26_Heal_AsLipidswB12_3.csv")
 element_to_analyze <- "75As" #This code only works for 75As
-smp_tags <- c("Smp_") #Only gets peak areas of peaks in the samples
+smp_tags <- c("_crude", "elute", "KM") #Only gets peak areas of crude samples
+blank_tags <- c("blank", "prefilter")
 
 # call up the pivoted ICPMS data and make into one file
 ICPdata_all <- read_csv(paste0("RawDat/20201026_icapdata_secondLipidRun/Pivoted/", files_to_analyze[1]))  %>%
@@ -23,7 +27,8 @@ ICPdata_all <- read_csv(paste0("RawDat/20201026_icapdata_secondLipidRun/Pivoted/
   rbind(read_csv(paste0("RawDat/20201026_icapdata_secondLipidRun/Pivoted/", files_to_analyze[3])))
 
 samples <- ICPdata_all %>% select(sampleID) %>% unique() %>%
-  filter(str_detect(sampleID, paste(smp_tags, collapse = '|')))
+  filter(str_detect(sampleID, paste(smp_tags, collapse = '|')))%>%
+  filter(!str_detect(sampleID, paste(blank_tags, collapse = '|')))
 
 peaks_df_all <- list()
 # call out one sample at a time
@@ -38,48 +43,68 @@ ICPdat_onesamp_onelement <- ICPdat_onesamp %>%
 ICPdat_onesamp_onelement.t <- t(ICPdat_onesamp_onelement$intenstiy) %>% as.matrix()
 
 # check out your baseline and save out the results-----
-bc.als <- baseline(ICPdat_onesamp_onelement.t, lambda = 6, p = .01, maxit = 20, method='als') #l6, p0.01, maxit20
-pdf(paste0("Intermediates/Baselines/",samples$sampleID[j], "_", element_to_analyze, ".pdf")) 
-plot(bc.als,
-     xlim=c(0, 6500))
-text(x = 6000, y = 500, label = paste0(samples$sampleID[j], "\n", element_to_analyze))
-dev.off()
+bc.als <- baseline(ICPdat_onesamp_onelement.t, 
+                   lambda = 6, p = .01, maxit = 20, method='als') #l6, p0.01, maxit20
+#plot(bc.als, xlim=c(0, 6500))
+#text(x = 6000, y = 500, label = paste0(samples$sampleID[j], "\n", element_to_analyze))
 
 # Add your baseline spectra to the same df, should save out this information somewhere, but not now-----
 ICPdat_onesamp_onelement_wbl <- ICPdat_onesamp_onelement %>%
   mutate(intenstiy_baselined = c(getBaseline(bc.als)),
-         intensity_corrected =  c(getCorrected(bc.als)))
+         intensity_corrected =  c(getCorrected(bc.als))) %>%
+  mutate(intensity_smoothed = sgolayfilt(intenstiy, p = 15),
+         intensity_corrected_smoothed = sgolayfilt(intensity_corrected, p = 15))
+write_csv(ICPdat_onesamp_onelement_wbl, paste0("Intermediates/Baseline_CSVs/", samples$sampleID[j], "_ICPwithbaseline.csv"))
 
 # Find detected peaks (adapted from findICPpeaks(), with min intensity good for As)-----
-ICP<-ICPdat_onesamp_onelement_wbl %>% select(time, intensity_corrected) %>% as.data.frame()
-ICP_base<-ksmooth(ICP$time,ICP$intensity_corrected,kernel="normal", bandwidth = 50)
-ICP_peak<-ksmooth(ICP$time,ICP$intensity_corrected,kernel="normal", bandwidth = 10)
+ICP<-ICPdat_onesamp_onelement_wbl %>% 
+  select(time, intensity_corrected_smoothed) %>% 
+  as.data.frame()
+ICP_base<-ksmooth(ICP$time,ICP$intensity_corrected_smoothed,
+                  kernel="normal", bandwidth = 100)
+ICP_peak<-ksmooth(ICP$time,ICP$intensity_corrected_smoothed,
+                  kernel="normal", bandwidth = 10)
 
 peaks<-which(diff(sign(diff(ICP_peak[[2]])))==-2)+1
 truepeaks<-peaks[which((ICP_peak[[2]][peaks]-ICP_base[[2]][peaks]) > 40)]
 
 # Save out these plots with sample names on them!-----
-pdf(paste0("Intermediates/DetectedPeaks/",samples$sampleID[j], "_", element_to_analyze, ".pdf") ,
-    height = 5) 
-plot(ICP$time,ICP$intensity_corrected,type='l',
+pdf(paste0("Intermediates/DetectedPeaks/",samples$sampleID[j], "_", 
+           element_to_analyze, ".pdf") ,
+    height = 9) 
+par(mfrow=c(2,1))
+plot(ICPdat_onesamp_onelement_wbl$time/60,
+     ICPdat_onesamp_onelement_wbl$intenstiy,type='l',
      xlab="Retention Time (min)",
+     ylab = "Intensity",
      bty='n',
      cex.axis=1,
      lwd=1,
      cex.lab=1,
-     xlim=c(0, 2500))
-abline(v=ICP[truepeaks,1], lty=3,col='red')
-title(paste0(samples$sampleID[j], "\n", element_to_analyze))
+     xlim=c(5,40))
+title(paste0(samples$sampleID[j], "\n", element_to_analyze, " raw ICP signal"))
+
+plot(ICPdat_onesamp_onelement_wbl$time/60,
+     ICPdat_onesamp_onelement_wbl$intensity_smoothed,type='l',
+     xlab="Retention Time (min)",
+     ylab = "Intensity",
+     bty='n',
+     cex.axis=1,
+     lwd=1,
+     cex.lab=1,
+     xlim=c(5,40))
+points(ICPdat_onesamp_onelement_wbl$time/60,
+       ICPdat_onesamp_onelement_wbl$intenstiy_baselined,
+       type='l',
+       col = 'red')
+abline(v=ICP[truepeaks,1]/60, lty=3,col='grey')
+title(paste0(samples$sampleID[j], "\n", element_to_analyze, " baselined and detected peaks"))
 dev.off()
 
 peaks_df <- ICP[truepeaks,1] %>% as.data.frame() %>% rename(peak_times = '.')
 
 ICP_reduced <- ICP %>%
   filter(time %in% peaks_df$peak_times)
-
-
-plot(ICP$time,ICP$intensity_corrected, type='l')
-
 x <- ICP$time
 y <- ICP$intensity_corrected
 
