@@ -1,4 +1,3 @@
-###### based on JP targeted_search_JP_191121.R
 
 # Load libraries ---
 library(tidyverse)
@@ -6,17 +5,8 @@ library(xcms)
 library(CluMSID)
 library(CluMSIDdata)
 
-# Set parameters
-#timerange <- c(0,2000) #time range in seconds
-min_height <- 50000        #minimum height to be plotted the max scan needs to be; 100000 is good for low mass
-scannum <- 20           #number of scans that detected targeted mass
-element <- "75As"
-scanfrq <- 7  #scans in a row we need to keep before counting it as an actual scan
-background <- 5000 #intensity background to keep 
 
 # Name files ----
-as_database_filename_lowmass <- "MetaData/AsLipidDatabase/lowmass_inclusionlist.csv"
-as_database_filename_highmass <- "MetaData/AsLipidDatabase/highmass_inclusionlist.csv"
 sample_matcher_filename <- "MetaData/QE_ICAP_samplematcher.csv"
 location_of_QEfiles <- "RawDat/20201026_QE_secondLipidRun"
 
@@ -54,10 +44,21 @@ my_spectra_merged <- mergeMS2spectra(my_spectra, mz_tolerance = 3E-06,
                                      rt_tolerance = 20, peaktable = NULL, 
                                      exclude_unmatched = FALSE)
 
+MS2test_1 <- findFragment(my_spectra_merged, getMolecule("C2H8OAs")$exactmass, tolerance = 5E-06) 
+
+MS2test_2 <- findFragment(my_spectra_merged, getMolecule("C2H6As")$exactmass, tolerance = 5E-06) 
+
+MS2test_3 <- MS2test_1 %>% append(MS2test_2) %>% unique()
 
 
 
-ICP_sampID <- sample_matcher$ICP_sampID[j]
+
+
+
+
+
+
+sICP_sampID <- sample_matcher$ICP_sampID[j]
 if(str_detect(QE_file, "highmass")){
   as_db <- read_csv(as_database_filename_highmass) %>% arrange(mz)
 } else {as_db <- read_csv(as_database_filename_lowmass) %>% arrange(mz)}
