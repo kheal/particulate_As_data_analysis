@@ -31,5 +31,5 @@ for (j in 1:length(sample_matcher$QE_filename)){
   saveRDS(my_spectra_merged, savename)
 }
 
-#To reload the data
+#To reload the data, do this :)
 #my_data <- readRDS(savename)
