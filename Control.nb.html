@@ -1803,91 +1803,76 @@ summary {
 <h2>Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different righ tnow) and a few extras, split it up into smaller and larger masses to use for the inclusion list</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUlxcKVxuYGBgXG5gYGAifQ== -->
-<pre class="r"><code>```r
-source(\SourceCode/database_construction.R\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-https://www.bioconductor.org/packages/devel/bioc/vignettes/CluMSID/inst/doc/CluMSID_tutorial.html
-
-
-# Data analysis chunks
-## Tidy up ICAP data
-This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTA5MDEyMDIwLlJcXCkgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkc1xuc291cmNlKFxcU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTIwMTAyNi5SXFwpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-source(\SourceCode/extract_and_organize_ICAPdata09012020.R\) #first run of Aslipids
-source(\SourceCode/extract_and_organize_ICAPdata201026.R\) #second run of Aslipids</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-## Calculate bulk concentrations
-Gets peak areas of As peaks in ICPMS data files
-Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUlxcKSAjc2Vjb25kIHJ1biBvZiBBc2xpcGlkc1xuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-source(\SourceCode/get_peak_areas_201026.R\) #second run of Aslipids</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-## Extract and merge MS2 data 
-This takes a long time (about 05-7 minutes per sample with retention time window of 10 s).  Only needs to be run again if we decide to merge differently
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9NUzJfZXh0cmFjdG9yLlJcIilcbmBgYCJ9 --&gt;
-
-```r
-source(&quot;SourceCode/MS2_extractor.R&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;SourceCode/database_construction.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><a href="https://www.bioconductor.org/packages/devel/bioc/vignettes/CluMSID/inst/doc/CluMSID_tutorial.html" class="uri">https://www.bioconductor.org/packages/devel/bioc/vignettes/CluMSID/inst/doc/CluMSID_tutorial.html</a></p>
+</div>
+</div>
+<div id="data-analysis-chunks" class="section level1">
+<h1>Data analysis chunks</h1>
+<div id="tidy-up-icap-data" class="section level2">
+<h2>Tidy up ICAP data</h2>
+<p>This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTA5MDEyMDIwLlJcIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkc1xuc291cmNlKFwiU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTIwMTAyNi5SXCIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;SourceCode/extract_and_organize_ICAPdata09012020.R&quot;) #first run of Aslipids
+source(&quot;SourceCode/extract_and_organize_ICAPdata201026.R&quot;) #second run of Aslipids</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
-<div id="ms2-peaker" class="section level2">
-<h2>MS2 peaker</h2>
+<div id="calculate-bulk-concentrations" class="section level2">
+<h2>Calculate bulk concentrations</h2>
+<p>Gets peak areas of As peaks in ICPMS data files Writes this out into Intermediates/AsLipids_ICPpeakareas.csv</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUlwiKSAjc2Vjb25kIHJ1biBvZiBBc2xpcGlkc1xuYGBgIn0= -->
+<pre class="r"><code>source(&quot;SourceCode/get_peak_areas_201026.R&quot;) #second run of Aslipids</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="extract-and-merge-ms2-data" class="section level2">
+<h2>Extract and merge MS2 data</h2>
+<p>This takes a long time (about 05-7 minutes per sample with retention time window of 10 s).<br />
+Only needs to be run again if we decide to merge differently</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9NUzJfZXh0cmFjdG9yLlJcIilcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;SourceCode/MS2_extractor.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiUmF3RGF0LzIwMjAxMDI2X1FFX3NlY29uZExpcGlkUnVuLzIwMTAyOF9TbXBfQUxPSEFfY3J1ZGVfaGlnaG1hc3MubXpYTUxcIlxuWzFdIFwib3JpZ2luYWwgTVMyIHNjYW5zID0gNzk0N1wiXG5UaW1lIGRpZmZlcmVuY2Ugb2YgMS43NTk1OSBtaW5zXG5bMV0gXCJtZXJnZWQgTVMyIHNjYW5zID0gMzg3MlwiXG5bMV0gXCJSYXdEYXQvMjAyMDEwMjZfUUVfc2Vjb25kTGlwaWRSdW4vMjAxMDI4X1NtcF9BTE9IQV9jcnVkZV9sb3dtYXNzLm16WE1MXCJcblsxXSBcIm9yaWdpbmFsIE1TMiBzY2FucyA9IDE0MjU4XCJcblRpbWUgZGlmZmVyZW5jZSBvZiAzMS44MzExMyBtaW5zXG5bMV0gXCJtZXJnZWQgTVMyIHNjYW5zID0gMzE1OFwiXG5bMV0gXCJSYXdEYXQvMjAyMDEwMjZfUUVfc2Vjb25kTGlwaWRSdW4vMjAxMDI4X1NtcF9BTE9IQV9lbHV0ZV9oaWdobWFzcy5telhNTFwiXG5bMV0gXCJvcmlnaW5hbCBNUzIgc2NhbnMgPSA0MDgzXCJcblRpbWUgZGlmZmVyZW5jZSBvZiA0My45NDkyNiBzZWNzXG5bMV0gXCJtZXJnZWQgTVMyIHNjYW5zID0gMTgyNFwiXG5bMV0gXCJSYXdEYXQvMjAyMDEwMjZfUUVfc2Vjb25kTGlwaWRSdW4vMjAxMDI4X1NtcF9BTE9IQV9lbHV0ZV9sb3dtYXNzLm16WE1MXCJcblsxXSBcIm9yaWdpbmFsIE1TMiBzY2FucyA9IDEzODIxXCJcbiJ9 -->
+<pre><code>[1] &quot;RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML&quot;
+[1] &quot;original MS2 scans = 7947&quot;
+Time difference of 1.75959 mins
+[1] &quot;merged MS2 scans = 3872&quot;
+[1] &quot;RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_lowmass.mzXML&quot;
+[1] &quot;original MS2 scans = 14258&quot;
+Time difference of 31.83113 mins
+[1] &quot;merged MS2 scans = 3158&quot;
+[1] &quot;RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_elute_highmass.mzXML&quot;
+[1] &quot;original MS2 scans = 4083&quot;
+Time difference of 43.94926 secs
+[1] &quot;merged MS2 scans = 1824&quot;
+[1] &quot;RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_elute_lowmass.mzXML&quot;
+[1] &quot;original MS2 scans = 13821&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="targeted-search-plots-ms1-ms1-of-c13-scaled-and-ms2-if-it-picked" class="section level2">
+<h2>Targeted Search, plots MS1, MS1 of C13 (scaled), and MS2 (if it picked)</h2>
+<p>Saves each sample as a PDF in Intermediates/</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS90YXJnZXRlZF9zZWFyY2guUlwiKVxuXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;SourceCode/targeted_search.R&quot;)
+</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1909,100 +1894,58 @@ source(&quot;SourceCode/MS2_extractor.R&quot;)</code></pre>
 <p>Writes 2 figures into Figures/ManuscriptReady</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlJcXClcbmBgYFxuYGBgIn0= -->
-<pre class="r"><code>```r
-source(\Figures/Rcode/Std_curves.R\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-## Preliminary figure of lipid ICAP chromats
-Writes 1 figures into Figures/Preliminary
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SXFwpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-source(\Figures/Rcode/Lipid_Exploratory_Plots.R\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-
-
-#
-# Tables
-## Sample overview
-Writes sample overview table into Tables/ManuscriptReady
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUlxcKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-source(\Tables/Rcode/Sample_descriptions.R\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-## Table of bulk concentrations
-Working on this as of 10/12/20
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcVGFibGVzL1Jjb2RlL1F1YW50aXRhdGl2ZV9vdmVydmlldy5SXFwpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-source(\Tables/Rcode/Quantitative_overview.R\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gc3RyaV9leHRyYWN0X2ZpcnN0X3JlZ2V4KHN0cmluZywgcGF0dGVybiwgb3B0c19yZWdleCA9IG9wdHMocGF0dGVybikpIDogXG4gIG9iamVjdCAnZGVzY3JpcHRfSUQnIG5vdCBmb3VuZFxuIn0= --&gt;
-</code></pre>
-<p>Error in stri_extract_first_regex(string, pattern, opts_regex = opts(pattern)) : object ‘descript_ID’ not found ```</p>
-<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlJcIilcbmBgYCJ9 -->
+<pre class="r"><code>source(&quot;Figures/Rcode/Std_curves.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="preliminary-figure-of-lipid-icap-chromats" class="section level2">
+<h2>Preliminary figure of lipid ICAP chromats</h2>
+<p>Writes 1 figures into Figures/Preliminary</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SXCIpXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;Figures/Rcode/Lipid_Exploratory_Plots.R&quot;)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
 </div>
 <div id="section-1" class="section level1">
 <h1></h1>
+</div>
+<div id="tables" class="section level1">
+<h1>Tables</h1>
+<div id="sample-overview" class="section level2">
+<h2>Sample overview</h2>
+<p>Writes sample overview table into Tables/ManuscriptReady</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;Tables/Rcode/Sample_descriptions.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="table-of-bulk-concentrations" class="section level2">
+<h2>Table of bulk concentrations</h2>
+<p>Working on this as of 10/12/20</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1F1YW50aXRhdGl2ZV9vdmVydmlldy5SXCIpXG5gYGAifQ== -->
+<pre class="r"><code>source(&quot;Tables/Rcode/Quantitative_overview.R&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+</div>
+<div id="section-2" class="section level1">
+<h1></h1>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIERhdGFiYXNlIGNyZWF0aW9uIGNodW5rcwojIyBDcmVhdGUgYW4gTVMxIGRhdGFiYXNlIGZvciBBc0hDLCBBc0ZBLCBBc1N1Z1BMLCBseXNvQXNTdWdQTCwgQXNQQyAoc2luZ2xlIGFuZCBkb3VibGUgY2hhcmdlcyBhcmUgZGlmZmVyZW50IHJpZ2ggdG5vdykgYW5kIGEgZmV3IGV4dHJhcywgc3BsaXQgaXQgdXAgaW50byBzbWFsbGVyIGFuZCBsYXJnZXIgbWFzc2VzIHRvIHVzZSBmb3IgdGhlIGluY2x1c2lvbiBsaXN0CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUiIpCmBgYAoKaHR0cHM6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9DbHVNU0lEL2luc3QvZG9jL0NsdU1TSURfdHV0b3JpYWwuaHRtbAoKCiMgRGF0YSBhbmFseXNpcyBjaHVua3MKIyMgVGlkeSB1cCBJQ0FQIGRhdGEKVGhpcyBjb2RlIHRha2VzIGluIGNvbWJpbmVkIC5jc3YgZmlsZXMgZnJvbSB0aGUgSUNBUCAod2l0aCBZIGFuZCB0aW1lKSwgdGlkaWVzIHRoZW0gdXAgYSBiaXQgYW5kIHdyaXRlcyBvdXQgbmV3IGZpbGVzIGFuZCB3cml0ZXMgdGhlbSBpbiB0byB0aGUgcGl2b3RlZCBmb2xkZXIgd2l0aGluIHJhd2RhdApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEwOTAxMjAyMC5SIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkcwpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEyMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgQ2FsY3VsYXRlIGJ1bGsgY29uY2VudHJhdGlvbnMKR2V0cyBwZWFrIGFyZWFzIG9mIEFzIHBlYWtzIGluIElDUE1TIGRhdGEgZmlsZXMKV3JpdGVzIHRoaXMgb3V0IGludG8gSW50ZXJtZWRpYXRlcy9Bc0xpcGlkc19JQ1BwZWFrYXJlYXMuY3N2CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgRXh0cmFjdCBhbmQgbWVyZ2UgTVMyIGRhdGEgClRoaXMgdGFrZXMgYSBsb25nIHRpbWUgKGFib3V0IDA1LTcgbWludXRlcyBwZXIgc2FtcGxlIHdpdGggcmV0ZW50aW9uIHRpbWUgd2luZG93IG9mIDEwIHMpLiAgT25seSBuZWVkcyB0byBiZSBydW4gYWdhaW4gaWYgd2UgZGVjaWRlIHRvIG1lcmdlIGRpZmZlcmVudGx5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9NUzJfZXh0cmFjdG9yLlIiKQpgYGAKCiMjIE1TMiBwZWFrZXIKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0KCmBgYAoKCiMjIEZpcnN0IGF0dGVtcHQgdG8gSUQgcGVha3MsIGJhc2VkIG9uIE1TMSBvbmx5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CgpgYGAKCgoKIwojIEZpZ3VyZXMKIyMgU3RhbmRhcmQgY3VydmUgZmlndXJlcwpXcml0ZXMgMiBmaWd1cmVzIGludG8gRmlndXJlcy9NYW51c2NyaXB0UmVhZHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL1N0ZF9jdXJ2ZXMuUiIpCmBgYAoKIyMgUHJlbGltaW5hcnkgZmlndXJlIG9mIGxpcGlkIElDQVAgY2hyb21hdHMKV3JpdGVzIDEgZmlndXJlcyBpbnRvIEZpZ3VyZXMvUHJlbGltaW5hcnkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL0xpcGlkX0V4cGxvcmF0b3J5X1Bsb3RzLlIiKQpgYGAKCgoKCiMKIyBUYWJsZXMKIyMgU2FtcGxlIG92ZXJ2aWV3CldyaXRlcyBzYW1wbGUgb3ZlcnZpZXcgdGFibGUgaW50byBUYWJsZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUiIpCmBgYAoKIyMgVGFibGUgb2YgYnVsayBjb25jZW50cmF0aW9ucwpXb3JraW5nIG9uIHRoaXMgYXMgb2YgMTAvMTIvMjAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJUYWJsZXMvUmNvZGUvUXVhbnRpdGF0aXZlX292ZXJ2aWV3LlIiKQpgYGAKIw==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIERhdGFiYXNlIGNyZWF0aW9uIGNodW5rcwojIyBDcmVhdGUgYW4gTVMxIGRhdGFiYXNlIGZvciBBc0hDLCBBc0ZBLCBBc1N1Z1BMLCBseXNvQXNTdWdQTCwgQXNQQyAoc2luZ2xlIGFuZCBkb3VibGUgY2hhcmdlcyBhcmUgZGlmZmVyZW50IHJpZ2ggdG5vdykgYW5kIGEgZmV3IGV4dHJhcywgc3BsaXQgaXQgdXAgaW50byBzbWFsbGVyIGFuZCBsYXJnZXIgbWFzc2VzIHRvIHVzZSBmb3IgdGhlIGluY2x1c2lvbiBsaXN0CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUiIpCmBgYAoKaHR0cHM6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9DbHVNU0lEL2luc3QvZG9jL0NsdU1TSURfdHV0b3JpYWwuaHRtbAoKCiMgRGF0YSBhbmFseXNpcyBjaHVua3MKIyMgVGlkeSB1cCBJQ0FQIGRhdGEKVGhpcyBjb2RlIHRha2VzIGluIGNvbWJpbmVkIC5jc3YgZmlsZXMgZnJvbSB0aGUgSUNBUCAod2l0aCBZIGFuZCB0aW1lKSwgdGlkaWVzIHRoZW0gdXAgYSBiaXQgYW5kIHdyaXRlcyBvdXQgbmV3IGZpbGVzIGFuZCB3cml0ZXMgdGhlbSBpbiB0byB0aGUgcGl2b3RlZCBmb2xkZXIgd2l0aGluIHJhd2RhdApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEwOTAxMjAyMC5SIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkcwpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEyMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgQ2FsY3VsYXRlIGJ1bGsgY29uY2VudHJhdGlvbnMKR2V0cyBwZWFrIGFyZWFzIG9mIEFzIHBlYWtzIGluIElDUE1TIGRhdGEgZmlsZXMKV3JpdGVzIHRoaXMgb3V0IGludG8gSW50ZXJtZWRpYXRlcy9Bc0xpcGlkc19JQ1BwZWFrYXJlYXMuY3N2CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgRXh0cmFjdCBhbmQgbWVyZ2UgTVMyIGRhdGEgClRoaXMgdGFrZXMgYSBsb25nIHRpbWUgKGFib3V0IDA1LTcgbWludXRlcyBwZXIgc2FtcGxlIHdpdGggcmV0ZW50aW9uIHRpbWUgd2luZG93IG9mIDEwIHMpLiAgCk9ubHkgbmVlZHMgdG8gYmUgcnVuIGFnYWluIGlmIHdlIGRlY2lkZSB0byBtZXJnZSBkaWZmZXJlbnRseQpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvTVMyX2V4dHJhY3Rvci5SIikKYGBgCgojIyBUYXJnZXRlZCBTZWFyY2gsIHBsb3RzIE1TMSwgTVMxIG9mIEMxMyAoc2NhbGVkKSwgYW5kIE1TMiAoaWYgaXQgcGlja2VkKQpTYXZlcyBlYWNoIHNhbXBsZSBhcyBhIFBERiBpbiBJbnRlcm1lZGlhdGVzLyAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL3RhcmdldGVkX3NlYXJjaC5SIikKCmBgYAoKCiMjIEZpcnN0IGF0dGVtcHQgdG8gSUQgcGVha3MsIGJhc2VkIG9uIE1TMSBvbmx5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CgpgYGAKCgoKIwojIEZpZ3VyZXMKIyMgU3RhbmRhcmQgY3VydmUgZmlndXJlcwpXcml0ZXMgMiBmaWd1cmVzIGludG8gRmlndXJlcy9NYW51c2NyaXB0UmVhZHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL1N0ZF9jdXJ2ZXMuUiIpCmBgYAoKIyMgUHJlbGltaW5hcnkgZmlndXJlIG9mIGxpcGlkIElDQVAgY2hyb21hdHMKV3JpdGVzIDEgZmlndXJlcyBpbnRvIEZpZ3VyZXMvUHJlbGltaW5hcnkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL0xpcGlkX0V4cGxvcmF0b3J5X1Bsb3RzLlIiKQpgYGAKCgoKCiMKIyBUYWJsZXMKIyMgU2FtcGxlIG92ZXJ2aWV3CldyaXRlcyBzYW1wbGUgb3ZlcnZpZXcgdGFibGUgaW50byBUYWJsZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUiIpCmBgYAoKIyMgVGFibGUgb2YgYnVsayBjb25jZW50cmF0aW9ucwpXb3JraW5nIG9uIHRoaXMgYXMgb2YgMTAvMTIvMjAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJUYWJsZXMvUmNvZGUvUXVhbnRpdGF0aXZlX292ZXJ2aWV3LlIiKQpgYGAKIw==</div>
 
 
 

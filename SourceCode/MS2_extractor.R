@@ -14,7 +14,8 @@ sample_matcher <- read_csv(sample_matcher_filename) %>%
   filter(!str_detect(ICP_sampID, "lank|filter")) 
 
 #Loop through here
-for (j in 1:length(sample_matcher$QE_filename)){
+# start at j = 12
+for (j in 4:length(sample_matcher$QE_filename)){
   QE_file <- paste0(location_of_QEfiles, "/", sample_matcher$QE_filename[j])
   print(QE_file)
   savename <- str_replace(QE_file, ".mzXML", '_mergedMS2.rds')
@@ -22,7 +23,7 @@ for (j in 1:length(sample_matcher$QE_filename)){
   print(paste0("original MS2 scans = ", length(my_spectra)))
   start.time <- Sys.time()
   my_spectra_merged <- mergeMS2spectra(my_spectra, mz_tolerance = 5E-06, 
-                                       rt_tolerance = 10, peaktable = NULL, 
+                                       rt_tolerance = 20, peaktable = NULL, 
                                        exclude_unmatched = FALSE)
   end.time <- Sys.time()
   time.taken <- end.time - start.time

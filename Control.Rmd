@@ -28,13 +28,16 @@ source("SourceCode/get_peak_areas_201026.R") #second run of Aslipids
 ```
 
 ## Extract and merge MS2 data 
-This takes a long time (about 05-7 minutes per sample with retention time window of 10 s).  Only needs to be run again if we decide to merge differently
+This takes a long time (about 05-7 minutes per sample with retention time window of 10 s).  
+Only needs to be run again if we decide to merge differently
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/MS2_extractor.R")
 ```
 
-## MS2 peaker
+## Targeted Search, plots MS1, MS1 of C13 (scaled), and MS2 (if it picked)
+Saves each sample as a PDF in Intermediates/ 
 ```{r, warning=FALSE, message = FALSE}
+source("SourceCode/targeted_search.R")
 
 ```
 

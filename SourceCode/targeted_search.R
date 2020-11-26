@@ -4,6 +4,9 @@
 library(tidyverse)
 library(xcms)
 library(zoo)
+library(fuzzyjoin)
+library(CluMSID)
+library(Rdisop)
 
 # Set parameters
 #timerange <- c(0,2000) #time range in seconds
@@ -25,6 +28,8 @@ location_of_QEfiles <- "RawDat/20201026_QE_secondLipidRun"
 files_to_analyze <- c("2020_10_26_Heal_AsLipidswB12_1.csv", 
                       "2020_10_26_Heal_AsLipidswB12_2.csv", 
                       "2020_10_26_Heal_AsLipidswB12_3.csv")
+MS2_spectra_filename <- "MetaData/AsLipidDatabase/MS2_Fragments.csv"
+
 
 
 #Load file of the samples to analyze, load in detected peaks
@@ -32,6 +37,10 @@ sample_matcher <- read_csv(sample_matcher_filename) %>%
   filter(str_detect(ICP_sampID, "crude|elute|KM")) %>%
   filter(!str_detect(ICP_sampID, "lank|filter")) 
 peaks_all <- read_csv(found_icap_peaks_filename)
+MS2_library <- read_csv(MS2_spectra_filename) %>%
+  mutate(mz = sapply(Formula, 
+                     function(x)getMolecule(x)$exactmass))
+
 
 #Loop here!!
 for (j in 1:length(sample_matcher$QE_filename)){
@@ -47,6 +56,10 @@ savefile <- paste("Intermediates/Targeted_search/", gsub(".mzXML","",sample_matc
 # Read in Orbitrap file
 mzxcms_raw <- xcmsRaw(QE_file,profstep=0.01,profmethod="bin",profparam=list(),includeMSn=FALSE,mslevel=NULL, scanrange=NULL)
 
+# Read in MS2 file
+savedfile <- str_replace(QE_file, ".mzXML", '_mergedMS2.rds')
+my_spectra <- readRDS(savedfile)
+
 # Grab ICPMS peaks from already written out file
 peaks <- peaks_all %>%
   filter(sampID == sample_matcher$ICP_sampID[j]) %>%
@@ -54,13 +67,13 @@ peaks <- peaks_all %>%
 
 # Get a list of possible good lipids based on criteria at top of script, plot each and ask if we should keep it as a possibility
 possible_lipids <- c()
+
 for(i in 1:nrow(as_db)){
-  #i=1
   timerange <- c(500, 2500)
-  cmp_mass <- as_db_culled$mz[i]
-  cmp_mass_C13 <- as_db_culled$mz_13C[i]
-  ratioC13_C12 <- as_db_culled$ratio_12Cto13C[i]
-  cmp_name <- as_db_culled$Lipid_Name[i]
+  cmp_mass <- as_db$mz[i]
+  cmp_mass_C13 <- as_db$mz_13C[i]
+  ratioC13_C12 <- as_db$ratio_12Cto13C[i]
+  cmp_name <- as_db$Lipid_Name[i]
   detected_peak_times <- peaks$peak_times/60 
   timerange_detected_peaks <- c(min(peaks$peak_times)-60, 
                                 max(peaks$peak_times)+60)/60
@@ -84,50 +97,7 @@ for(i in 1:nrow(as_db)){
   max_int <- max(EIC_df$int)
   
   if (scans_detected > scannum & max_int > min_height)
-  {  # Grab ICP data
-    ICPdata <- read_csv(paste0("Intermediates/Baseline_CSVs/", 
-                               sample_matcher$ICP_sampID[j], "_ICPwithbaseline.csv"))
-    
-    
-    # This is where the plots are made
-    par(mfrow=c(2,1))
-    
-    #This makes the ICP MS plot with the detected peaks
-    plot(ICPdata$time/60,ICPdata$intensity_smoothed,type='l',
-         xlab="Retention Time (min)",
-         ylab = "Intensity",
-         bty='n',
-         cex.axis=1,
-         lwd=1,
-         cex.lab=1,
-         xlim=c(8,35))
-    points(ICPdata$time/60,
-           ICPdata$intenstiy_baselined,
-           type='l',
-           col = 'red')
-    abline(v=detected_peak_times, lty=3,col='gray48')
-    title(paste(i,'  ',element,'LC-ICPMS'),line=1,adj=0,cex=1.0)
-    
-    #This makes the ESI plot
-    plot(EIC_df$times, EIC_df$int,
-         type='l',
-         lwd=1,
-         xlim=c(8,35),
-         ylab='Intensity (scaled for 13C)',
-         xlab='Retention Time (min)',
-         col='black',
-         bty='n',
-         cex.axis=1,
-         cex.lab=1
-    )
-    lines(EIC_13C_df$times, EIC_13C_df$int*ratioC13_C12, 
-          type='l',
-          col = '#FF000088')
-    title(paste('  ','LC-ESIMS.  EIC = ',round(cmp_mass, digits=3), cmp_name, "\n Max intensity = ", round(max_int, digits = -1), "Scans = ", scans_detected))
-    abline(v=detected_peak_times, lty=3,col='gray48')
-    ask<-readline(prompt="Enter 'y' if this is a possible match: ")
-    if(ask=='y'){possible_lipids[i] <- as_db$EmpiricalFormula[i]}
-    }
+  { possible_lipids[i] <- as_db$EmpiricalFormula[i]}
 }
 possible_lipids <- na.omit(possible_lipids)   
 print(paste(length(possible_lipids), "possible hits"))
@@ -135,8 +105,8 @@ print(paste(length(possible_lipids), "possible hits"))
 # Make plots of all the possibles
 as_db_culled <- as_db %>%
   filter(EmpiricalFormula %in% possible_lipids)
+pdf(savefile, width = 7, height = 10)
 if (length(possible_lipids) > 0){
-  pdf(savefile)
   for(i in 1:length(possible_lipids)){
     timerange <- c(500, 2500)
     cmp_mass <- as_db_culled$mz[i]
@@ -170,9 +140,89 @@ if (length(possible_lipids) > 0){
     ICPdata <- read_csv(paste0("Intermediates/Baseline_CSVs/", 
                                sample_matcher$ICP_sampID[j], "_ICPwithbaseline.csv"))
     
+    # Grab the MS2 data
+    MS2s <- getSpectrum(my_spectra, "precursor", cmp_mass, mz.tol = 1E-03)
+    if (!is.null(MS2s)){
+    for (k in 1:length(MS2s)){
+      if (length(MS2s) >1){
+      MS2_time <- MS2s[[k]]@rt/60
+      MS2_precursormass <- MS2s[[k]]@precursor
+      MS2_to_plot <- tibble(mz = as.numeric(MS2s[[k]]@spectrum[,1]),
+        intensity = as.numeric(MS2s[[k]]@spectrum[,2])) %>%
+        distance_left_join(MS2_library %>% select(mz, Formula) %>% unique(), max_dist = 0.02)
+      MS2_to_plot_withAs <- tibble(mz = as.numeric(MS2s[[k]]@spectrum[,1]),
+                            intensity = as.numeric(MS2s[[k]]@spectrum[,2])) %>%
+        distance_left_join(MS2_library %>% select(mz, Formula) %>% unique(), max_dist = 0.02) %>%
+        filter(!is.na(Formula))} else
+        {
+        MS2_time <- MS2s@rt/60
+        MS2_precursormass <- MS2s@precursor
+        MS2_to_plot <- tibble(mz = as.numeric(MS2s@spectrum[,1]),
+                              intensity = as.numeric(MS2s@spectrum[,2])) %>%
+          distance_left_join(MS2_library %>% select(mz, Formula) %>% unique(), max_dist = 0.02)
+        MS2_to_plot_withAs <- tibble(mz = as.numeric(MS2s@spectrum[,1]),
+                                     intensity = as.numeric(MS2s@spectrum[,2])) %>%
+          distance_left_join(MS2_library %>% select(mz, Formula) %>% unique(), max_dist = 0.02) %>%
+          filter(!is.na(Formula))
+          }
+      
+      par(mfrow=c(3,1))
+      
+      #This makes the ICP MS plot with the detected peaks
+      plot(ICPdata$time/60,ICPdata$intensity_smoothed,type='l',
+           xlab="Retention Time (min)",
+           ylab = "Intensity",
+           bty='n',
+           cex.axis=1,
+           lwd=1,
+           cex.lab=1,
+           xlim=c(8,35))
+      points(ICPdata$time/60,
+             ICPdata$intenstiy_baselined,
+             type='l',
+             col = 'red')
+      abline(v=detected_peak_times, lty=3,col='gray48')
+      title(paste('  ',element,'LC-ICPMS'),line=1,adj=0,cex=1.0)
+      
+      #This makes the ESI plot
+      plot(EIC_df$times, EIC_df$int,
+           type='l',
+           lwd=1,
+           xlim=c(8,35),
+           ylab='Intensity (scaled for 13C)',
+           xlab='Retention Time (min)',
+           col='black',
+           bty='n',
+           cex.axis=1,
+           cex.lab=1
+      )
+      lines(EIC_13C_df$times, EIC_13C_df$int*ratioC13_C12, 
+            type='l',
+            col = '#FF000088')
+      title(paste('  ','LC-ESIMS.  EIC = ',round(cmp_mass, digits=3), cmp_name, "\n Max intensity = ", round(max_int, digits = -1), "Scans = ", scans_detected))
+      abline(v=detected_peak_times, lty=3,col='gray48')
+      abline(v=MS2_time, lty=1,lwd = 2, col='green')
+      
+      
+      plot(MS2_to_plot$mz.x, MS2_to_plot$intensity,
+           type = 'h', 
+          # xlim=c(8,35),
+           ylab='Intensity',
+           xlab='m/z',
+           col='black',
+           bty='n',
+           cex.axis=1,
+           cex.lab=1)
+      points(MS2_to_plot_withAs$mz.x, MS2_to_plot_withAs$intensity,
+           type = 'h', col = 'green', lwd = 2) 
+      title(paste('MS2 spectra for mass', round(MS2_precursormass, digits = 4),
+                  "at", round(MS2_time, digits = 1), "minutes"))
+      
+    }
+     } else {
     
     # This is where the plots are made
-    par(mfrow=c(2,1))
+    par(mfrow=c(3,1))
     
     #This makes the ICP MS plot with the detected peaks
     plot(ICPdata$time/60,ICPdata$intensity_smoothed,type='l',
@@ -207,6 +257,11 @@ if (length(possible_lipids) > 0){
           col = '#FF000088')
     title(paste('  ','LC-ESIMS.  EIC = ',round(cmp_mass, digits=3), cmp_name, "\n Max intensity = ", round(max_int, digits = -1), "Scans = ", scans_detected))
     abline(v=detected_peak_times, lty=3,col='gray48')
+    abline(v=detected_peak_times, lty=3,col='orange')
+    
+    plot.new()
+
+    }
   }
   dev.off()
 }
