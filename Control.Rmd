@@ -44,6 +44,7 @@ source("SourceCode/targeted_search.R")
 
 ## First attempt to ID peaks, based on MS1 only
 ```{r, warning=FALSE, message = FALSE}
+source("SourceCode/targeted_search_MS2work.R")
 
 ```
 
