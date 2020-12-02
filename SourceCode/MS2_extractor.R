@@ -15,7 +15,7 @@ sample_matcher <- read_csv(sample_matcher_filename) %>%
 
 #Loop through here
 # start at j = 12
-for (j in 4:length(sample_matcher$QE_filename)){
+for (j in 1:length(sample_matcher$QE_filename)){
   QE_file <- paste0(location_of_QEfiles, "/", sample_matcher$QE_filename[j])
   print(QE_file)
   savename <- str_replace(QE_file, ".mzXML", '_mergedMS2.rds')

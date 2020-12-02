@@ -23,7 +23,8 @@ location_of_QEfiles <- "RawDat/20201026_QE_secondLipidRun"
 lipids_to_plot <- read_csv(lipids_to_plot_filename, comment = "#")
 MS2_library <- read_csv(MS2_library_filename)%>%
   mutate(mz = sapply(Formula, 
-                     function(x)getMolecule(x)$exactmass))
+                     function(x)getMolecule(x)$exactmass)) %>%
+  filter(str_detect(Formula, "As"))
 
 
 

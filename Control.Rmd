@@ -28,7 +28,7 @@ source("SourceCode/get_peak_areas_201026.R") #second run of Aslipids
 ```
 
 ## Extract and merge MS2 data 
-This takes a long time (about 05-7 minutes per sample with retention time window of 10 s).  
+This takes a long time (with retention time window of 20 s).  
 Only needs to be run again if we decide to merge differently
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/MS2_extractor.R")
@@ -38,14 +38,12 @@ source("SourceCode/MS2_extractor.R")
 Saves each sample as a PDF in Intermediates/ 
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/targeted_search.R")
-
 ```
 
 
 ## First attempt to ID peaks, based on MS1 only
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/targeted_search_MS2work.R")
-
 ```
 
 
