@@ -1,0 +1,71 @@
+---
+title: "Make your tables here"
+author: "Katherine Heal"
+date: "Dec 16 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(cowplot)
+library(here)
+```
+
+#Supp tables (LATEX files)
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+#Sample Descriptions 
+source('Tables/Rcode/Sample_descriptions.R')
+remove(list = ls())
+
+#Overview of Quantitative Results
+source('Tables/Rcode/Quantitative_overview.R')
+remove(list = ls())
+
+#Summary of AsLipid Database
+source('Tables/Rcode/DB_summary.R')
+remove(list = ls())
+```
+
+#Supplemental Tables (CSVs)
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+#Full MS1 database of lipids
+source('Tables/RCode/DB_summary_full_MS1.R')
+remove(list = ls())
+```
+
+#Merge all the csv files into one big xcel file here
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+library(XLConnect) #requires Java between 8 and 11
+file.remove("Tables/Manuscript_tables/SuppTables/Combined_SuppTables.xlsx")
+
+#write out the order of the tables you want
+supp.tables <- 
+  c("Tables/ManuscriptReady/SuppTables/DB_summary_full_MS1.csv")
+
+files_nms <- basename(supp.tables) %>% 
+  str_remove(".csv") %>%
+  str_remove("Tables/ManuscriptReady/SuppTables/") %>%
+  str_remove("RawOutput/") %>%
+  str_remove("_") 
+
+files_nms2 <- files_nms %>% as.data.frame() %>%
+  mutate(sheet_ID = paste0("S", row_number()+3, "_", .))
+
+f.out <- "Tables/ManuscriptReady/SuppTables/Combined_SuppTables.xlsx"
+wb <- loadWorkbook(f.out, create=TRUE)
+
+for (i in 1:length(supp.tables)) {
+  ## ingest the CSV file
+  temp_DT <- read_csv(supp.tables[[i]])
+
+  ## Create the sheet where the file will be outputed to 
+  createSheet(wb, name=files_nms2$sheet_ID[i])
+
+  ## output the csv contents
+  writeWorksheet(object=wb, data=temp_DT, sheet=i, header=TRUE, rownames=NULL)
+}
+
+saveWorkbook(wb)
+remove(list = ls())
+
+```

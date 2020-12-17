@@ -5,7 +5,6 @@ theme_set(theme_cowplot())
 library(broom)
 library(wesanderson)
 
-#TO DO: Check the slopes etc on the different sig_types from the %HCl
 #TO DO: Check units - is this really ppb?  Or is it nMol
 
 dat.file <- "Intermediates/Std_curves_variableHClandMeOH.csv"
@@ -63,13 +62,14 @@ names(sigtype.labs) <- c("raw", "77Correction",
 
 
 #Plot it up!
+pal = 
 g.HCl.curves.log <- ggplot(dat.curves.all%>%
                              filter(Signal > 0) %>%
                              filter(`[As]_ppb` > 0.005), aes(x =  `[As]_ppb`, y = Signal, color = factor(`%HCl`))) +
   stat_smooth(geom='line', alpha=0.5, se=FALSE, method = "lm", size = 1.5)+
   geom_point(size = 2)+
-  scale_color_manual(name="% HCl",
-                     values = pal)+
+  #scale_color_manual(name="% HCl",
+  #                   values = pal)+
   facet_grid(rows = vars(Mode), cols = vars(sig_type), scales = "free", 
              labeller = labeller(sig_type = sigtype.labs))+
   scale_x_log10()+scale_y_log10()+
