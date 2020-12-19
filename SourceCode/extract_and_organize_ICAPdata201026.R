@@ -4,7 +4,7 @@ library(tidyverse)
 files_to_pivot <- c("2020_10_26_Heal_AsLipidswB12_1.csv", 
                     "2020_10_26_Heal_AsLipidswB12_2.csv", 
                     "2020_10_26_Heal_AsLipidswB12_3.csv")
-elements_to_analyze = c("75As", "77Se", "78Se","103Rh")
+elements_to_analyze = c("75As", "77Se", "78Se","59Co", "103Rh")
 
 
 #Loop through each file to pivot and clean up a bit
