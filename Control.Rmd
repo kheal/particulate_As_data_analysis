@@ -31,7 +31,9 @@ source("SourceCode/get_peak_areas_201026.R")
 source("SourceCode/under_the_hump_areas.R")
 
 # Get area of cobalt standards for RF
-#source()
+source("SourceCode/standard_area_extraction.R")
+
+# Get 
 
 ```
 
