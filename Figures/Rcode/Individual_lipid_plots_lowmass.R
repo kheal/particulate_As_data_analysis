@@ -41,16 +41,16 @@ for (i in 1:5){
                                    ICP_sampID, "_ICPwithbaseline.csv"))}
 
 # Get MS1 data for each sample and MS2 
-ESI_dat_highmass <- list()
-MS2_dat_highmass <- list()
+ESI_dat_lowmass <- list()
+MS2_dat_lowmass <- list()
 ESI_elute_samps <- sample_matcher %>% 
-  filter(str_detect(QE_filename, "elute") & str_detect(QE_filename, "highmas")) 
+  filter(str_detect(QE_filename, "elute") & str_detect(QE_filename, "lowmas")) 
 for (i in 1:5){
   QE_file <- paste0(location_of_QEfiles, "/", ESI_elute_samps$QE_filename[i])
-  ESI_dat_highmass[[i]] <- xcmsRaw(QE_file,profstep=0.01, profmethod="bin",
+  ESI_dat_lowmass[[i]] <- xcmsRaw(QE_file,profstep=0.01, profmethod="bin",
                         profparam=list(),
                         includeMSn=FALSE, mslevel=NULL, scanrange=NULL)
-  MS2_dat_highmass[[i]] <- readRDS(str_replace(QE_file, ".mzXML", '_mergedMS2.rds'))
+  MS2_dat_lowmass[[i]] <- readRDS(str_replace(QE_file, ".mzXML", '_mergedMS2.rds'))
 }
 
 # Enter in name of lipid and pull out EIC from each sample and plot faceted
@@ -58,7 +58,7 @@ lipids_to_plot_withmass <- lipids_to_plot %>%
   mutate(Lipid_Name = Lipid_to_replot) %>% 
   select(Lipid_Name, Time) %>% 
   left_join(as_bd, by = "Lipid_Name") %>%
-  filter(mz > 900)
+  filter(mz< 900)
 
 
 # Get shorter names of each sample to plot
@@ -70,9 +70,9 @@ for (j in 1:length(lipids_to_plot_withmass$mz)){
 
 EICs <- list()
 for (i in 1:5){
-  mzrange<-c(-0.01,0.01)+lipids_to_plot_withmass$mz[j]
-  EIC<-rawEIC(ESI_dat_highmass[[i]],mzrange)
-  times<-ESI_dat_highmass[[i]]@scantime/60
+  mzrange<-c(-0.05,0.01)+lipids_to_plot_withmass$mz[j]
+  EIC<-rawEIC(ESI_dat_lowmass[[i]],mzrange)
+  times<-ESI_dat_lowmass[[i]]@scantime/60
   EIC_df<-data.frame(cbind(times,unlist(EIC[[2]])))
   colnames(EIC_df) <- c("times", "int")
   EIC_df$sample <- names$SampID_short[i]
@@ -83,7 +83,7 @@ EICs_unpack <- do.call(rbind, EICs)
 MS2s <- list()
 for (i in 1:5){
   MS2s_mz <- c()
-  MS2s_rt <- getSpectrum(MS2_dat_highmass[[i]], "rt", 
+  MS2s_rt <- getSpectrum(MS2_dat_lowmass[[i]], "rt", 
                          lipids_to_plot_withmass$Time[j]*60, 
                          rt.tol = 20)
    MS2s_mz <- getSpectrum(MS2s_rt,  "precursor", 
@@ -113,7 +113,8 @@ MS2s_unpack <- do.call(bind_rows, MS2s) %>%
 MS2s_topfrags <- MS2s_unpack %>%
   filter((has_As == TRUE) | (rank < 15))
 MS2s_times <- MS2s_unpack %>%
-  select(sample, rt) %>% unique()
+  select(sample, rt) %>% unique() %>%
+  mutate(rt = ifelse(is.na(rt), 0, rt))
 
 # EICs of the samples
 my_theme <- theme(strip.background = element_blank(),
@@ -125,16 +126,19 @@ my_theme <- theme(strip.background = element_blank(),
 
 g <- ggplot(data = EICs_unpack, aes(x = times, y = int)) +
   geom_hline(yintercept = 0)+
-  geom_vline(data = MS2s_times, aes(xintercept = rt), color = 'coral1', 
-             size =1, alpha = 0.8)+
+  geom_vline(data = MS2s_times, aes(xintercept = rt), 
+             color = 'coral1', size =1, alpha = 0.8
+             )+
   geom_line(size = 0.3)+
   facet_wrap(~  sample, ncol = 1, scales = "free_y") +
   labs(title = paste0(lipids_to_plot_withmass$Lipid_Name[j], ", m/z = ",
                       round(lipids_to_plot_withmass$mz[j], digits = 4), 
                       ", rt = ", round(mean(MS2s_times$rt, na.rm = TRUE),
                                        digits = 1)))+
-  scale_x_continuous("Retention time (minutes)", limits = c(15, 30),
-                     expand = c(0,0))+
+  scale_x_continuous("Retention time (minutes)", 
+                     limits = c(8, 30),
+                     expand = c(0,0)
+                     )+
   scale_y_continuous("Intensity",
                      expand = c(0,0))+
   my_theme +
@@ -156,7 +160,7 @@ g2 <- ggplot(data = MS2s_topfrags,
              size = 2, color = 'black',
              check_overlap = TRUE)+
   facet_wrap(~  sample, ncol = 1, scales = "free_y")+
-  scale_x_continuous("m/z", limits = c(0, 800),
+  scale_x_continuous("m/z", limits = c(0, 500),
                      expand = c(0,0))+
   scale_y_continuous("Intensity",  
                      limits=c(0, NA))+  
