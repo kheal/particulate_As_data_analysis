@@ -1,15 +1,15 @@
-﻿# Possible matches (decent peaks in MS1 and 13C and something reasonable in the MS2),,,,,,,,,,,
-Lipid_to_replot,Time,ALOHA_crude,ALOHA_elute,BATS_crude,BATS_elute,PS1_crude,PS1_elute,PS2_crude,PS2_elute,PS3_crude,PS3_elute
-AsHC332,14,"y, 14.2","y, 13.9","y, 14.1","y, 14","y, 14",,"y, 13.8","y, 14.0","y, 13.9","y, 13.9"
-AsHC390,18.5,,,,,,,,,"y, 18.5","y, 18.2"
-AsHC418,21.6,,,,,,,,,"y, 21.6","y, 21.4"
-AsSugPL902,22,"y, 22.0","y, 22.0",,"y, 22.1",,"y, 22.0",,"y, 21.9",,
-AsSugPL928,22.5,y,"y, 22.5",,,,"y, 22.6",,,,
-AsSugPL930,23.5,"y, 22.3","y, 23.4",,,,"y, 23.6",,,,
-AsSugPL952,22,,"y, 22.3",,,,"y, 22.1",,,,
-AsSugPL954,23,"y, 23.2","y, 23.2","y, 23.1","y, 23.1","y, 23.0","y, 23.1","y, 23.0","y, 23.0","y, 23.0","y, 23.0"
-AsSugPL956,24,y,"y, 24.1",,"y, 24.0",,"y, 24.0",,"y, 24.1",,"y, 24.0"
-AsSugPL958,25,"y, 22.6","y, 25.0",,"y, 24.9",,"y, 25.0",,,,"y, 24.9"
-AsSugPL982,24.5,y,"y, 24.5",,"y, 24.4",,"y, 24.4",,,,"y, 24.4"
-AsSugPL984,25.4,,,,"y, 25.2",,"y, 25.4",,,,"y, 25.3"
-AsSugPL1010,25.7,y,"y, 25.7",,"y, 25.7",,"y, 25.7",,,,"y, 25.7"
+﻿# Possible matches (decent peaks in MS1 and 13C and something reasonable in the MS2),,,,,,,,,,,,
+Lipid_to_replot,Time,ALOHA_crude,ALOHA_elute,BATS_crude,BATS_elute,PS1_crude,PS1_elute,PS2_crude,PS2_elute,PS3_crude,PS3_elute,Tails
+AsHC332,14,"y, 14.2","y, 13.9","y, 14.1","y, 14","y, 14",,"y, 13.8","y, 14.0","y, 13.9","y, 13.9",
+AsHC390,18.5,,,,,,,,,"y, 18.5","y, 18.2",
+AsHC418,21.6,,,,,,,,,"y, 21.6","y, 21.4",
+AsSugPL902,22,"y, 22.0","y, 22.0",,"y, 22.1",,"y, 22.0",,"y, 21.9",,,
+AsSugPL928,22.5,y,"y, 22.5",,,,"y, 22.6",,,,,
+AsSugPL930,23.5,"y, 22.3","y, 23.4",,,,"y, 23.6",,,,,
+AsSugPL952,22,,"y, 22.3",,,,"y, 22.1",,,,,
+AsSugPL954,23,"y, 23.2","y, 23.2","y, 23.1","y, 23.1","y, 23.0","y, 23.1","y, 23.0","y, 23.0","y, 23.0","y, 23.0",
+AsSugPL956,24,y,"y, 24.1",,"y, 24.0",,"y, 24.0",,"y, 24.1",,"y, 24.0",
+AsSugPL958,25,"y, 22.6","y, 25.0",,"y, 24.9",,"y, 25.0",,,,"y, 24.9",
+AsSugPL982,24.5,y,"y, 24.5",,"y, 24.4",,"y, 24.4",,,,"y, 24.4",
+AsSugPL984,25.4,,,,"y, 25.2",,"y, 25.4",,,,"y, 25.3",
+AsSugPL1010,25.7,y,"y, 25.7",,"y, 25.7",,"y, 25.7",,,,"y, 25.7",18:1;18:1

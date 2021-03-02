@@ -24,14 +24,16 @@ source("SourceCode/extract_and_organize_ICAPdata201026.R") #second run of Aslipi
 Gets peak areas of As peaks in ICPMS data files
 Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 ```{r, warning=FALSE, message = FALSE}
-# Does basline, peak detection, and smoothing of ICP data
+# Does baseline, peak detection, and smoothing of ICP data
 source("SourceCode/get_peak_areas_201026.R") 
-
-# Gets under-the-hump area for all samples
-source("SourceCode/under_the_hump_areas.R")
 
 # Get area of cobalt standards for RF
 source("SourceCode/standard_area_extraction.R")
+
+# Gets under-the-hump area and concentrations for all samples
+source("SourceCode/under_the_hump_areas.R")
+
+
 
 # Get 
 
