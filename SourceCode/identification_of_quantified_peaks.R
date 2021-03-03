@@ -29,4 +29,4 @@ quan_peaks3 <- quan_peaks2 %>%
   slice(1)
 
 # Write out these quantified IDd lipids :)
-write_csv(quan_peaks3, "Intermediates/IDd_Lipids_Quanified.csv")
+write_csv(quan_peaks3, "Intermediates/IDd_Lipids.csv")

@@ -11,6 +11,20 @@ library(cowplot)
 library(here)
 ```
 
+# Main text table (LATEX files)
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+#Overview of Quantitative Results
+source('Tables/Rcode/Quantitative_overview.R')
+remove(list = ls())
+
+```
+
+
+
+
+
+
+
 #Tables (LATEX files)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 #Sample Descriptions 

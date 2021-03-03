@@ -10,13 +10,33 @@ Figures for particulate arsenic manuscript and associated presentations
 library(tidyverse)
 ```
 
+# Figure with lipid ICP traces for all 4 samples
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+source('Figures/Rcode/ICP_trace_plots.R')
+remove(list = ls())
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Standard curve plots
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 source('Figures/Rcode/Std_curves.R')
 remove(list = ls())
 ```
 
-# Figure with lipid ICAP plots
+
+
 
 # Figures for each individual lipid in each sample (targeted)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
