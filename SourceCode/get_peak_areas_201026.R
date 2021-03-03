@@ -20,6 +20,11 @@ files_to_analyze <- c("2020_10_26_Heal_AsLipidswB12_1.csv",
 element_to_analyze <- "75As" #This code only works for 75As
 smp_tags <- c("_crude", "elute", "KM") #Only gets peak areas of crude samples
 blank_tags <- c("blank", "prefilter")
+co_rf_dat <- read_csv("Intermediates/CoRF.csv")
+co_to_as <- 0.75 #this is the observed ratio in Co / As signal at > 30% B
+meta_dat <- read_csv("MetaData/SampleMetaDat.csv") %>%
+  select(`Sample ID`, sampleID, lipid_fraction_reconst_vol_mL, L_extracted)
+
 
 # call up the pivoted ICPMS data and make into one file
 ICPdata_all <- read_csv(paste0("RawDat/20201026_icapdata_secondLipidRun/Pivoted/", files_to_analyze[1]))  %>%
@@ -128,14 +133,22 @@ peaks_df_all[[j]] <- cbind(peaks_df, area) %>% mutate(sampID = samples$sampleID[
 }
 
 peaks_df_all <- do.call(rbind, peaks_df_all) 
-write_csv(peaks_df_all, "Intermediates/AsLipids_ICPpeakareas.csv")
+
+peaks_df_all_concentrations <- peaks_df_all%>%
+  mutate(nMolAs_in_vial = int_area/co_to_as*(co_rf_dat$concentration[1]/co_rf_dat$area[1])) %>%
+  rename(sampleID = sampID) %>%
+  left_join(meta_dat, by = "sampleID") %>%
+  mutate(pMolAs_enviro = nMolAs_in_vial/10^3*lipid_fraction_reconst_vol_mL/L_extracted*10^3) %>%
+  select(-lipid_fraction_reconst_vol_mL, -L_extracted)
+
+
+write_csv(peaks_df_all_concentrations, "Intermediates/AsLipids_ICPpeakareas_concen.csv")
 
 # This is starting to explore if we can assign the same compounds to each of these, 
-peaks_df_all_2 <- peaks_df_all %>%
+peaks_df_all_2 <- peaks_df_all_concentrations %>%
+  filter(sampleID %in% meta_dat$sampleID) %>%
   as.data.frame() %>% 
-  mutate(present = 1) %>%
-  filter(str_detect(sampID, "_crude") | str_detect(sampID, "KM")) %>%
-  filter(!str_detect(sampID, "blank"))
-g <- ggplot(data = peaks_df_all_2, aes(x = peak_times, y = sampID, color = log(int_area), size = log(int_area))) +
+  mutate(present = 1) 
+g <- ggplot(data = peaks_df_all_2, aes(x = peak_times, y = sampleID, color = log(pMolAs_enviro), size = log(pMolAs_enviro))) +
               geom_point()
 g

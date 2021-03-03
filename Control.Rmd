@@ -20,23 +20,18 @@ source("SourceCode/extract_and_organize_ICAPdata09012020.R") #first run of Aslip
 source("SourceCode/extract_and_organize_ICAPdata201026.R") #second run of Aslipids
 ```
 
-## Calculate bulk concentrations
+## Calculate 75As in lipids concentrations
 Gets peak areas of As peaks in ICPMS data files
 Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 ```{r, warning=FALSE, message = FALSE}
-# Does baseline, peak detection, and smoothing of ICP data
-source("SourceCode/get_peak_areas_201026.R") 
-
 # Get area of cobalt standards for RF
 source("SourceCode/standard_area_extraction.R")
 
+# Does baseline, peak detection, and smoothing of ICP data, then gets areas of detected peaks, turns those into concentrations
+source("SourceCode/get_peak_areas_201026.R") 
+
 # Gets under-the-hump area and concentrations for all samples
 source("SourceCode/under_the_hump_areas.R")
-
-
-
-# Get 
-
 ```
 
 ## Extract and merge MS2 data 
@@ -52,11 +47,19 @@ Saves each sample as a PDF in Intermediates/
 source("SourceCode/targeted_search.R")
 ```
 
-
-## First attempt to ID peaks, based on MS1 only
+## Targeted Search based on MS2 only
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/targeted_search_MS2work.R")
 ```
+
+## Put identifications on the peaks to get 
+Writes "Intermediates/IDd_Lipids_Quanified.csv"
+```{r, warning=FALSE, message = FALSE}
+source("SourceCode/identification_of_quantified_peaks.R")
+```
+
+
+
 
 
 
