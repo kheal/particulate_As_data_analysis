@@ -11,7 +11,7 @@ library(cowplot)
 library(here)
 ```
 
-#Supp tables (LATEX files)
+#Tables (LATEX files)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 #Sample Descriptions 
 source('Tables/Rcode/Sample_descriptions.R')

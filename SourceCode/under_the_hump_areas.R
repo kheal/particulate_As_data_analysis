@@ -13,6 +13,7 @@ co_to_as <- 0.75 #this is the observed ratio in Co / As signal at > 30% B
 meta_dat <- read_csv("MetaData/SampleMetaDat.csv") %>%
   select(`Sample ID`, sampleID, lipid_fraction_reconst_vol_mL, L_extracted)
 
+
 # Point to folder with smoothed ICP data
 folder <- "Intermediates/Baseline_CSVs/"
 
@@ -24,14 +25,11 @@ files <- list.files(folder, full.names =  TRUE) %>%
 total_area_list <- list()
 
 for (i in 1:length(files)){
-
 ICP_dat <- read_csv(files[i])
 sampleID <- ICP_dat$sampleID %>% unique() %>% as.character()
-ICP_dat_to_integrate <- ICP_dat %>% filter(time > 1000 & time < 2500)
+ICP_dat_to_integrate <- ICP_dat %>% filter(time > 500 & time < 2500)
 total_area <- AUC(ICP_dat_to_integrate$time, ICP_dat_to_integrate$intensity_smoothed)
 total_area_list[[i]]<- tibble(sampleID = sampleID, area_under_hump = total_area)
-
-
 }
 
 total_areas <- do.call(bind_rows, total_area_list)
@@ -45,7 +43,16 @@ dat2 <- total_areas %>%
 # Write out these results
 write_csv(dat2, "Intermediates/total_75As_areas_and_concentrations.csv")
 
-
-
-
-
+# Lets try to get better areas for the detected peaks
+deteced_peaks <- read_csv("Intermediates/AsLipids_ICPpeakareas_concen.csv") %>%
+  select(peak_times, sampleID, int_area)
+# Test for ALOHA try integrating this time : 1394.13135 +- 
+test_time <- 1394.13135
+peak_width <- 25
+ICP_dat <- read_csv(files[1])
+ICP_dat_to_integrate <- ICP_dat %>% 
+  filter(time > (test_time-peak_width) & time < (test_time+peak_width)) %>%
+  filter(intensity_corrected_smoothed > 0)
+total_area <- AUC(ICP_dat_to_integrate$time, ICP_dat_to_integrate$intensity_corrected_smoothed)
+total_area
+plot(ICP_dat_to_integrate$time, ICP_dat_to_integrate$intensity_corrected_smoothed, type = "l")
