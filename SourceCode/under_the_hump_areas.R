@@ -43,7 +43,7 @@ dat2 <- total_areas %>%
 # Write out these results
 write_csv(dat2, "Intermediates/total_75As_areas_and_concentrations.csv")
 
-# Lets try to get better areas for the detected peaks
+# Lets try to get better areas for the detected peaks - THIS LOOKS WAY BETTER, DO THIS FOR the detected peaks that we've seen from the targeted list to get better areas.
 deteced_peaks <- read_csv("Intermediates/AsLipids_ICPpeakareas_concen.csv") %>%
   select(peak_times, sampleID, int_area)
 # Test for ALOHA try integrating this time : 1394.13135 +- 
