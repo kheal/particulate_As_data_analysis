@@ -11,10 +11,13 @@ library(tidyverse)
 ```
 
 # Figure with lipid ICP traces for all 4 samples
+Shows which lipids we IDd, other non-IDd lipids too
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 source('Figures/Rcode/ICP_trace_plots.R')
 remove(list = ls())
 ```
+
+# Figure with example ICP, MS1, MS2 from AsSugPL954 (from PS1), AsHC (from BATS), unknown early (from ALOHA), and unknown late (from PS3)
 
 
 

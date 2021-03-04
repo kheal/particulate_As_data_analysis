@@ -38,6 +38,14 @@ source("SourceCode/targeted_search.R")
 source("SourceCode/targeted_search_MS2work.R")
 ```
 
+# Do baseline and save out results from that correction
+```{r, warning=FALSE, message = FALSE}
+# Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks
+source("SourceCode/get_peak_areas_201026.R") 
+
+```
+
+
 ## Put identifications on the peaks to get 
 Writes "Intermediates/IDd_Lipids_Quanified.csv"
 ```{r, warning=FALSE, message = FALSE}
@@ -50,9 +58,6 @@ Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 ```{r, warning=FALSE, message = FALSE}
 # Get area of cobalt standards for RF
 source("SourceCode/standard_area_extraction.R")
-
-# Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks
-source("SourceCode/get_peak_areas_201026.R") 
 
 # Gets under-the-hump area and concentrations for all samples
 source("SourceCode/under_the_hump_areas.R")
