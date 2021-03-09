@@ -18,6 +18,15 @@ remove(list = ls())
 ```
 
 # Figure with example ICP, MS1, MS2 from AsSugPL954 (from PS1), AsHC (from BATS), unknown early (from ALOHA), and unknown late (from PS3)
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+source('Figures/Rcode/Example_individual_lipids.R')
+remove(list = ls())
+```
+
+# Figure with list of lipids, names, mz, time, Y/N concentration for each sample
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+
+```
 
 
 

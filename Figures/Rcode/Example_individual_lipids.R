@@ -5,6 +5,7 @@ theme_set(theme_cowplot())
 library(Rdisop)
 library(fuzzyjoin)
 library(patchwork)
+library(ggrepel)
 
 
 # Name your files ----
@@ -74,13 +75,13 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   filter(mz < 500)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 6) )| (rank < 3))
+  filter(((has_As == TRUE) & (rank < 10) )| (rank < 3))
 
 p1a <- ggplot() +
-   geom_line(data = icap_dat_sub, 
-              aes(x = time/60, y = intensity_smoothed*700), color = "coral1",
-             alpha = 0.5)+
-  geom_line(data = EIC_df, aes(x = rt_min+.2, y = intensity))+
+  geom_line(data = EIC_df+0.2, aes(x = rt_min, y = intensity))+
+  geom_line(data = icap_dat_sub, 
+            aes(x = time/60, y = intensity_smoothed*700), color = "grey80",
+            alpha = 0.6, size = 0.3)+
   scale_x_continuous("Time (min)", limits = c(10, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
@@ -95,11 +96,13 @@ p1b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                size = 1)+
   geom_segment()+
   geom_hline(yintercept = 0)+
-  geom_text(data = MS2s_top, 
-            aes(x = mz, y = intensity*1.1, 
-                label = round(mz, digits = 4)), 
-            size = 1.8, color = 'black',
-            check_overlap = TRUE)+
+  geom_label_repel(data = MS2s_top, 
+                   aes(x = mz, y = intensity, 
+                       label = sprintf("%0.3f", round(mz, digits = 3))), 
+                   nudge_y = 0.2*max(MS2s_top$intensity),
+                   size = 1.8, color = 'black',  min.segment.length = 0.35,
+                   segment.color = 'grey80',
+                   direction = "x")+
   scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 400))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
@@ -108,7 +111,7 @@ p1b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
 
 p1 <- p1a + p1b + 
     plot_layout(design = layout)
-p1
+
 
 
 # Plot 2 = AsSugPL954 in PS1----
@@ -148,12 +151,13 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 3))
+  filter(((has_As == TRUE) & (rank < 10) )| (rank < 3))
+
 p2a <- ggplot() +
+  geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
   geom_line(data = icap_dat_sub, 
-            aes(x = time/60, y = intensity_smoothed*1500), color = "coral1",
-            alpha = 0.5)+
-  geom_line(data = EIC_df, aes(x = rt_min+.1, y = intensity))+
+            aes(x = time/60, y = intensity_smoothed*1500), color = "grey80",
+            alpha = 0.6, size = 0.3)+
   scale_x_continuous("Time (min)", limits = c(10, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
@@ -168,15 +172,16 @@ p2b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                size = 1)+
   geom_segment()+
   geom_hline(yintercept = 0)+
-  geom_text(data = MS2s_top, 
-            aes(x = mz, y = intensity+5000, 
-                label = round(mz, digits = 4)), 
-            size = 2, color = 'black',
-            check_overlap = TRUE)+
-  scale_x_continuous("m/z", limits = c(0, 450),
-                     expand = c(0,0))+
+  geom_label_repel(data = MS2s_top, 
+                   aes(x = mz, y = intensity, 
+                       label = sprintf("%0.3f", round(mz, digits = 3))), 
+                   nudge_y = 0.2*max(MS2s_top$intensity),
+                   size = 1.8, color = 'black',  min.segment.length = 0.35,
+                   segment.color = 'grey80',
+                   direction = "x")+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
   scale_y_continuous(element_blank(),  
-                     limits=c(0, max(MS2s$intensity*1.05)), expand = c(0,NA))+  
+                     limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
@@ -225,10 +230,10 @@ MS2s_top <- MS2s %>%
   filter(((has_As == TRUE) & (rank < 20) )| (rank < 3))
 
 p3a <- ggplot() +
+  geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
   geom_line(data = icap_dat_sub, 
-            aes(x = time/60, y = intensity_smoothed*1500), color = "coral1",
-            alpha = 0.5)+
-  geom_line(data = EIC_df, aes(x = rt_min+.1, y = intensity))+
+            aes(x = time/60, y = intensity_smoothed*1500), color = "grey80",
+            alpha = 0.6, size = 0.3)+
   scale_x_continuous("Time (min)", limits = c(10, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
@@ -242,27 +247,27 @@ p3b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                color = 'coral1', 
                size = 1)+
   geom_segment()+
-  geom_hline(yintercept = 0)+
-  geom_text(data = MS2s_top, 
-            aes(x = mz, y = intensity+5000, 
-                label = round(mz, digits = 4)), 
-            size = 2, color = 'black',
-            check_overlap = TRUE)+
-  scale_x_continuous("m/z", limits = c(0, 450),
-                     expand = c(0,0))+
+  geom_label_repel(data = MS2s_top, 
+                   aes(x = mz, y = intensity, 
+                       label = sprintf("%0.3f", round(mz, digits = 3))), 
+                   nudge_y = 0.2*max(MS2s_top$intensity),
+                   size = 1.8, color = 'black',  min.segment.length = 0.35,
+                   segment.color = 'grey80',
+                   direction = "x")+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
   scale_y_continuous(element_blank(),  
-                     limits=c(0, max(MS2s$intensity*1.05)), expand = c(0,NA))+  
+                     limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
 p3 <- p3a + p3b + 
   plot_layout(design = layout)
-
+p3
 
 # Plot 4 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown_mz1003.5009"
+lipid_name_to_plot <- "unknown lipid with mz=1003.5009"
 rt_lipid = 21.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
@@ -297,13 +302,13 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 3))
+  filter(((has_As == TRUE) & (rank < 10) )| (rank < 1))
 
 p4a <- ggplot() +
+  geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
   geom_line(data = icap_dat_sub, 
-            aes(x = time/60, y = intensity_smoothed*1000), color = "coral1",
-            alpha = 0.5)+
-  geom_line(data = EIC_df, aes(x = rt_min+.1, y = intensity))+
+            aes(x = time/60, y = intensity_smoothed*700), color = "grey80",
+            alpha = 0.6, size = 0.3)+
   scale_x_continuous("Time (min)", limits = c(10, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
@@ -318,15 +323,16 @@ p4b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                size = 1)+
   geom_segment()+
   geom_hline(yintercept = 0)+
-  geom_text(data = MS2s_top, 
-            aes(x = mz, y = intensity+5000, 
-                label = round(mz, digits = 4)), 
-            size = 2, color = 'black',
-            check_overlap = TRUE)+
-  scale_x_continuous("m/z", limits = c(0, 450),
-                     expand = c(0,0))+
+  geom_label_repel(data = MS2s_top, 
+                   aes(x = mz, y = intensity, 
+                       label = sprintf("%0.3f", round(mz, digits = 3))), 
+                   nudge_y = 0.2*max(MS2s_top$intensity),
+                   size = 1.8, color = 'black',  min.segment.length = 0.35,
+                   segment.color = 'grey80',
+                   direction = "x")+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
   scale_y_continuous(element_blank(),  
-                     limits=c(0, max(MS2s$intensity*1.05)), expand = c(0,NA))+  
+                     limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
@@ -338,7 +344,7 @@ p4 <- p4a + p4b +
 # Plot 5 = unknown late in PS2-----
 sample_name <- "Smp_PS2_crude"
 sample_name_to_plot <- "ETNP-PS2"
-lipid_name_to_plot <- "unknown_mz999.5884"
+lipid_name_to_plot <- "unknown lipid with mz=999.5884"
 rt_lipid = 27.6
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS2_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS2_elute_highmass_mergedMS2.rds"
@@ -376,10 +382,10 @@ MS2s_top <- MS2s %>%
   filter(((has_As == TRUE) & (rank < 20) )| (rank < 3))
 
 p5a <- ggplot() +
+  geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
   geom_line(data = icap_dat_sub, 
-            aes(x = time/60, y = intensity_smoothed*1000), color = "coral1",
-            alpha = 0.5)+
-  geom_line(data = EIC_df, aes(x = rt_min+.1, y = intensity))+
+            aes(x = time/60, y = intensity_smoothed*1000), color = "grey80",
+            alpha = 0.6, size = 0.3)+
   scale_x_continuous("Time (min)", limits = c(10, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
@@ -393,15 +399,19 @@ p5b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                size = 1)+
   geom_segment()+
   geom_hline(yintercept = 0)+
-  geom_text(data = MS2s_top, 
-            aes(x = mz, y = intensity+5000, 
-                label = round(mz, digits = 4)), 
-            size = 2, color = 'black',
-            check_overlap = TRUE)+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0,450))+
+  geom_label_repel(data = MS2s_top, 
+                   aes(x = mz, y = intensity, 
+                       label = round(mz, digits = 3)), 
+                   nudge_y = 0.2*max(MS2s_top$intensity),
+                   size = 1.8, color = 'black',  min.segment.length = 0.35,
+                   segment.color = 'grey80',
+                   direction = "x")+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
   scale_y_continuous(element_blank(),  
-                     limits=c(0, max(MS2s$intensity*1.05)), expand = c(0,NA))+  
-  my_theme
+                     limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
+  my_theme+
+  theme(axis.title.x = element_blank())
+
 
 p5 <- p5a + p5b + 
   plot_layout(design = layout)
@@ -412,4 +422,4 @@ p6 <- p1/p2/p3/p4/p5
 p6
 
 save_plot("Figures/ManuscriptReady/Example_lipids_chromats_and_spectra.pdf", p6, 
-          base_width = 6, base_height = 8)
+          base_width = 6, base_height = 9)
