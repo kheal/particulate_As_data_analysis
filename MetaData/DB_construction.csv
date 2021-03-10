@@ -1,9 +1,9 @@
-﻿Long_name,Lipid_Class,tail_min,tail_max,sat_min,sat_max,evens_only,manuscripts
-Arsenic fatty acid,AsFA,7,21,0,8,FALSE,"\citep{ArroyoAbad2016, Lischka2013, Petursdottir2018, Viczek2016, Rumpler2008, Amayo2011, Amayo2013, Raab2013, Sele2014}"
-Arsenichydrocarbon,AsHC,13,30,0,6,FALSE,"\citep{Petursdottir2019, Amayo2013, Raab2013, Amayo2011, GarciaSalgado2012, Petursdottir2018, Taleshi2008, Lischka2013, Sele2014, Taleshi2010, Glabonjat2020, ArroyoAbad2016, Petursdottir2015, Glabonjat2018, Viczek2016, Taleshi2014}"
-Arsenosugarphospholipid,AsSugPL,10,24,0,6,FALSE,"\citep{Raab2013, Petursdottir2015, Petursdottir2018, Petursdottir2019, GarciaSalgado2012, Glabonjat2018, Glabonjat2020, Sele2014, Xue2014}"
-lyso-Arsenosugarphospholipid,lysoAsSugPL,10,24,0,6,FALSE,\citep{Glabonjat2020}
-Arseno phosphotidylcholine,AsPC,10,24,0,6,,"\citep{Petursdottir2018, Viczek2016}"
-Arseno isoprenoid,AsIsop,,,,,,"\citep{Glabonjat2020, Glabonjat2018}"
-Arseno ﻿phosphatidylethanolamine,AsPE,,,,,,"\citep{Petursdottir2018, Viczek2016}"
-﻿Arseno fatty alcohol,TMAsFOH,,,,,,"\citep{Petursdottir2018, Amayo2013}"
+﻿Long_name,Lipid_Class,tail_min,tail_max,sat_min,sat_max,evens_only,refs_numeric,manuscripts
+Arsenic fatty acid,AsFA,7,21,0,8,FALSE,1-9,"\citep{Amayo2011, Amayo2013, ArroyoAbad2016, Lischka2013, Petursdottir2018, Raab2013, Rumpler2008,  Sele2014, Viczek2016}"
+Arsenichydrocarbon,AsHC,13,30,0,6,FALSE,"1-6, 8, 9, 10-17","\citep{Amayo2011, Amayo2013, ArroyoAbad2016, GarciaSalgado2012, Glabonjat2018, Glabonjat2020, Lischka2013, Petursdottir2015, Petursdottir2018, Petursdottir2019,  Raab2013, Sele2014, Taleshi2008,  Taleshi2014,  Taleshi2010, Viczek2016 }"
+Arsenosugarphospholipid,AsSugPL,10,24,0,6,FALSE,"6, 8, 10-15, 18","\citep{GarciaSalgado2012, Glabonjat2018, Glabonjat2020, Petursdottir2015, Petursdottir2018, Petursdottir2019, Raab2013, Sele2014, Xue2014}"
+lyso-Arsenosugarphospholipid,lysoAsSugPL,10,24,0,6,FALSE,12,\citep{Glabonjat2020}
+Arseno phosphotidylcholine,AsPC,10,24,0,6,,"9, 14","\citep{Petursdottir2018, Viczek2016}"
+Arseno isoprenoid,AsIsop,,,,,,"11, 12","\citep{Glabonjat2020, Glabonjat2018}"
+Arseno ﻿phosphatidylethanolamine,AsPE,,,,,,"9, 14","\citep{Petursdottir2018, Viczek2016}"
+﻿Arseno fatty alcohol,TMAsFOH,,,,,,"2, 14","\citep{Petursdottir2018, Amayo2013}"

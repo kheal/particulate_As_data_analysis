@@ -1,0 +1,6 @@
+Sample,Latitude,Longitude,Date,Volume (L),Filter set up (\textmu m),Volume digested for bulk As (L),Volume extracted for arsenolipids (L),"Crude extract, high mass HRESIMS data","Silica-cleaned extract, high mass HRESIMS data","Crude extract, low mass HRESIMS data","Silica-cleaned extract, low mass HRESIMS data"
+ALOHA,22.75,-158,190621,747,53-0.3,3.7,374,201028_Smp_ALOHA_crude_highmass.mzXML,201028_Smp_ALOHA_elute_highmass.mzXML,201028_Smp_ALOHA_crude_lowmass.mzXML,201028_Smp_ALOHA_elute_lowmass.mzXML
+BATS,31.66,-64.167,190608,225,53-0.7,1.68,105,201028_Smp_BATS_crude_highmass.mzXML,201028_Smp_BATS_elute_highmass.mzXML,201028_Smp_BATS_crude_lowmass.mzXML,201028_Smp_BATS_elute_lowmas.mzXML
+ETNP-PS1,10,-113,180323,488,53-0.7,2.42,218,201028_Smp_PS1_crude_highmass.mzXML,201028_Smp_PS1_elute_highmass.mzXML,201028_Smp_PS1_crude_lowmass.mzXML,201028_Smp_PS1_elute_lowmass.mzXML
+ETNP-PS2,15.77,-103,180403,450,53-0.3,2.23,196,201028_Smp_PS2_crude_highmass.mzXML,201028_Smp_PS2_elute_highmass.mzXML,201028_Smp_PS2_crude_lowmass.mzXML,201028_Smp_PS2_elute_lowmass.mzXML
+ETNP-PS3,17.68,-102.35,180412,193,53-0.3,0.96,86,201028_Smp_PS3_crude_highmass.mzXML,201028_Smp_PS3_elute_highmass.mzXML,201028_Smp_PS3_crude_lowmass.mzXML,201028_Smp_PS3_elute_lowmass.mzXML

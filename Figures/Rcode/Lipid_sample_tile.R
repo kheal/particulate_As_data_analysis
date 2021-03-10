@@ -73,7 +73,7 @@ pal <- park_palette("Badlands", 4)
 g <- ggplot(data = dat7, aes(x =`Sample ID`,  y = long_name, 
                              fill = lipid_type, 
                              label = round(pMolAs_enviro*1000, digits = 0))) +
-  geom_tile(alpha = 0.5) +
+  geom_tile(alpha = 0.5, color = "grey30") +
   geom_text(size = 2) +
   scale_fill_manual(values=pal)+
   my_theme+

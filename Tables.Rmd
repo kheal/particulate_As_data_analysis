@@ -16,29 +16,28 @@ library(here)
 #Overview of Quantitative Results
 source('Tables/Rcode/Quantitative_overview.R')
 remove(list = ls())
-
 ```
 
-
-
-
-
-
-
-#Tables (LATEX files)
-```{r, error = FALSE, warning=FALSE, message=FALSE}
-#Sample Descriptions 
+# Supp tables (CSVs)
+```{r}
+# Sample Descriptions (Table S1)
 source('Tables/Rcode/Sample_descriptions.R')
 remove(list = ls())
 
-#Overview of Quantitative Results
-source('Tables/Rcode/Quantitative_overview.R')
+# Sample Descriptions (Table S2)
+source('Tables/Rcode/Sample_descriptions.R')
 remove(list = ls())
 
-#Summary of AsLipid Database
-source('Tables/Rcode/DB_summary.R')
+# Summary of AsLipid DB
+source('Tables/RCode/DB_summary.R')
 remove(list = ls())
+
+
+
 ```
+
+
+BELOW THIS IS OLD AND NEEDS REVAMPING / REVISITING
 
 #Supplemental Tables (CSVs)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
