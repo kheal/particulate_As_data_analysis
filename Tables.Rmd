@@ -19,19 +19,22 @@ remove(list = ls())
 ```
 
 # Supp tables (CSVs)
-```{r}
+```{r, error = FALSE, warning=FALSE, message=FALSE}
 # Sample Descriptions (Table S1)
 source('Tables/Rcode/Sample_descriptions.R')
 remove(list = ls())
 
-# Sample Descriptions (Table S2)
-source('Tables/Rcode/Sample_descriptions.R')
-remove(list = ls())
-
-# Summary of AsLipid DB
+# Summary of AsLipid DB (Table S2)
 source('Tables/RCode/DB_summary.R')
 remove(list = ls())
 
+#Full MS1 database of lipids (Table S3)
+source('Tables/RCode/full_DB.R')
+remove(list = ls())
+
+# MS2 database of arsenic-containing fragments and lipid classes associated with each
+source('Tables/RCode/full_DB_MS2.R')
+remove(list = ls())
 
 
 ```
@@ -41,9 +44,7 @@ BELOW THIS IS OLD AND NEEDS REVAMPING / REVISITING
 
 #Supplemental Tables (CSVs)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
-#Full MS1 database of lipids
-source('Tables/RCode/DB_summary_full_MS1.R')
-remove(list = ls())
+
 ```
 
 #Merge all the csv files into one big xcel file here
