@@ -45,9 +45,9 @@ source("SourceCode/get_peak_areas_201026.R")
 
 ```
 
-
 ## Put identifications on the peaks to get 
-Writes "Intermediates/IDd_Lipids_Quanified.csv"
+Writes "Intermediates/IDd_Lipids_IDd.csv"
+This isn't used from here on out - just used this to get good ids 
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/identification_of_quantified_peaks.R")
 ```

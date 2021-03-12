@@ -8,7 +8,7 @@ library(fuzzyjoin)
 quan_peaks <- read_csv("Intermediates/AsLipids_ICPpeakareas_concen.csv")
 meta_dat <- read_csv("MetaData/SampleMetaDat.csv") %>%
   select(`Sample ID`, sampleID)
-ids <- read_csv("Intermediates/Targeted_visually_IDd.csv") %>% select(lipid_ID:sampleID)
+ids <- read_csv("MetaData/Targeted_visually_IDd_2.csv") %>% select(lipid_ID:sampleID)
 
 
 # Clean up the data

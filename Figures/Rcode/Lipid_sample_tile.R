@@ -2,6 +2,7 @@ library(tidyverse)
 library(cowplot)
 theme_set(theme_cowplot())
 library(nationalparkcolors)
+library(ggtext)
 
 
 # Name your files ----
@@ -49,10 +50,10 @@ dat5 <- dat3 %>%
                                     str_extract(lipid_ID, "unknown_."),
                                     lipid_ID)) %>%
   mutate(long_name = ifelse(!is.na(mz), 
-                            paste0(lipid_ID_forprint, ", ", 
-                                   round(as.numeric(mz), digits = 4), ", ", 
+                            paste0("**", lipid_ID_forprint, "**, *", 
+                                   round(as.numeric(mz), digits = 4), "*, ", 
                             round(rt_min_ave, digits = 1), " min"), 
-                            paste0(lipid_ID_forprint, ", ", 
+                            paste0("**",lipid_ID_forprint, "**, ", 
                                    round(rt_min_ave, digits = 1), " min")))
 
 dat6 <- dat5 %>% arrange(desc(rt_min_ave)) %>% 
@@ -61,15 +62,20 @@ dat6 <- dat5 %>% arrange(desc(rt_min_ave)) %>%
 dat7 <- dat5 %>% 
   mutate(long_name = factor(long_name, 
                                     levels = dat6$long_name)) %>%
-  mutate(lipid_type = ifelse(str_detect(long_name, "AsHC"), "AsHC",
-                             ifelse(str_detect(long_name, "AsSugPL"), "AsSugPL",
-                                    "unknown")))
+  mutate(lipid_type = ifelse(str_detect(lipid_ID, "HC"), "AsHC",
+                             ifelse(str_detect(lipid_ID, "AsSugPL"), "AsSugPL",
+                                    ifelse(str_detect(lipid_ID, "AsSugPeL"), "AsSugPeL",
+                                           ifelse(str_detect(lipid_ID, "mz"), "unknown, but m/z known",
+                                                  "unknown")))))
+
+
+dat7$lipid_type = factor(dat7$lipid_type, levels = c("AsHC", "AsSugPL", "AsSugPeL", "unknown, but m/z known", "unknown"))
 
 # Plot up the data, these are in fMol/L
 # To do: color by type of lipid
 # Order samples
 # Order lipids by RT
-pal <- park_palette("Badlands", 4)
+pal <- c(park_palette("Badlands", 4), 'grey80')
 g <- ggplot(data = dat7, aes(x =`Sample ID`,  y = long_name, 
                              fill = lipid_type, 
                              label = round(pMolAs_enviro*1000, digits = 0))) +
@@ -77,6 +83,10 @@ g <- ggplot(data = dat7, aes(x =`Sample ID`,  y = long_name,
   geom_text(size = 2) +
   scale_fill_manual(values=pal)+
   my_theme+
-  theme(axis.title = element_blank())
+  theme(axis.title = element_blank(), 
+        axis.text.y = ggtext::element_markdown())
 g
 
+
+
+save_plot("Figures/ManuscriptReady/Results_tiles.pdf", g, base_height = 4.5, base_width = 4)

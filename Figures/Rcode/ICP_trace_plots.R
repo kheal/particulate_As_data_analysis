@@ -26,10 +26,13 @@ max_intensity <- dat2 %>%
 peaks2 <- peaks %>% left_join(max_intensity, by = "Sample ID") %>%
   mutate(lipid_type = ifelse(str_detect(lipid_ID, "HC"), "AsHC",
                              ifelse(str_detect(lipid_ID, "AsSugPL"), "AsSugPL",
-                                    ifelse(str_detect(lipid_ID, "mz"), "tenative_ID",
-                                    "unknown"))))
+                                    ifelse(str_detect(lipid_ID, "AsSugPeL"), "AsSugPeL",
+                                    ifelse(str_detect(lipid_ID, "mz"), "unknown, but m/z known",
+                                    "unknown")))))
 
-pal <- park_palette("Badlands", 4)
+peaks2$lipid_type = factor(peaks2$lipid_type, levels = c("AsHC", "AsSugPL", "AsSugPeL", "unknown, but m/z known", "unknown"))
+
+pal <- c(park_palette("Badlands", 4), 'grey80')
 # Plot up the ICP traces
 g <- ggplot()+
   geom_rect(data = peaks2, aes(xmin = rt_sec_lower/60, xmax = rt_sec_higher/60, 
@@ -41,7 +44,7 @@ g <- ggplot()+
   geom_hline(yintercept = 0)+
   facet_wrap(facets = vars(`Sample ID`), ncol = 1, scales = "free_y") +
   scale_y_continuous("Intensity", limits = c(0,NA), expand = c(0, NA)) +
-  scale_x_continuous("Time (min)") +
+  scale_x_continuous("Time (min)", limits = c(12, 33)) +
   scale_fill_manual(values = pal)+
   theme(strip.background = element_blank(),
         strip.text = element_text(face = "bold", size = 9),

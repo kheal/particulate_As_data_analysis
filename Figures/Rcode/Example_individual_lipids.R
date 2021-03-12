@@ -6,6 +6,7 @@ library(Rdisop)
 library(fuzzyjoin)
 library(patchwork)
 library(ggrepel)
+library(CluMSID)
 
 
 # Name your files ----
@@ -29,10 +30,10 @@ my_theme <- theme(strip.background = element_blank(),
                   axis.title = element_text(size = 8),
                   axis.text.x = element_text(size = 7),
                   axis.text.y = element_blank(),
-                  legend.position = "none")
+                  legend.position = "none",
+                  plot.margin = unit(c(3,3,3,3), "pt"))
 
 layout <- "
-AAAABB
 AAAABB
 AAAABB
 "
@@ -82,7 +83,7 @@ p1a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*700), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(10, 32)) +
+  scale_x_continuous("Time (min)", limits = c(12, 30)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme+
@@ -103,13 +104,13 @@ p1b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 400))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 400))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
-p1 <- p1a + p1b + 
+p1 <- (p1a + labs(tag = "A")) + p1b + 
     plot_layout(design = layout)
 
 
@@ -158,7 +159,7 @@ p2a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*1500), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(10, 32)) +
+  scale_x_continuous("Time (min)", limits = c(12, 30)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme +
@@ -179,13 +180,13 @@ p2b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 450))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
-p2 <- p2a + p2b + 
+p2 <- (p2a + labs(tag = "B")) + p2b + 
   plot_layout(design = layout)
 
 
@@ -234,7 +235,7 @@ p3a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*1500), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(10, 32)) +
+  scale_x_continuous("Time (min)", limits = c(12, 30)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme+
@@ -254,15 +255,15 @@ p3b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 450))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
-p3 <- p3a + p3b + 
+p3 <- (p3a + labs(tag = "C")) + p3b + 
   plot_layout(design = layout)
-p3
+
 
 # Plot 4 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
@@ -309,7 +310,7 @@ p4a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*700), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(10, 32)) +
+  scale_x_continuous("Time (min)", limits = c(12, 30)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme+
@@ -330,33 +331,32 @@ p4b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 450))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
-p4 <- p4a + p4b + 
+p4 <- (p4a + labs(tag = "E")) + p4b + 
   plot_layout(design = layout)
 
 
 
-# Plot 5 = unknown late in PS2-----
+# Plot 5 = AsSugPeL972 in PS2-----
 sample_name <- "Smp_PS2_crude"
 sample_name_to_plot <- "ETNP-PS2"
-lipid_name_to_plot <- "unknown lipid with mz=999.5884"
-rt_lipid = 27.6
+lipid_name_to_plot <- "AsSugPeL972"
+rt_lipid = 27
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS2_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS2_elute_highmass_mergedMS2.rds"
-mass = 999.5872
+mass = as_bd %>% filter(Lipid_Name == lipid_name_to_plot) %>% select(Lipid_Name, mz)
 icap_dat_sub <- icap_dat %>% filter(sampleID == sample_name) %>%
   filter(time > 8*60)
-
 
 ESI_dat <- xcmsRaw(ESI_dat_file,profstep=0.01, profmethod="bin",
                    profparam=list(),
                    includeMSn=FALSE, mslevel=NULL, scanrange=NULL)
-mzrange<-c(-0.01,0.01)+mass
+mzrange<-c(-0.01,0.01)+mass$mz[1]
 EIC<-rawEIC(ESI_dat,mzrange)
 rt_min<-ESI_dat@scantime/60
 EIC_df<-data.frame(cbind(rt_min,unlist(EIC[[2]])))
@@ -365,7 +365,7 @@ colnames(EIC_df) <- c("rt_min", "intensity")
 MS2_dat <- readRDS(MS2_dat_file)
 MS2s_rt <- getSpectrum(MS2_dat, "rt", rt_lipid*60, rt.tol = 20)
 MS2s_mz <- getSpectrum(MS2s_rt,  "precursor", 
-                       mass, 
+                       mass$mz[1], 
                        mz.tol = .1)
 MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
@@ -386,7 +386,7 @@ p5a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*1000), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(10, 32)) +
+  scale_x_continuous("Time (min)", limits = c(12, 33)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme
@@ -406,19 +406,19 @@ p5b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(0, 450))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 450))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
   theme(axis.title.x = element_blank())
 
 
-p5 <- p5a + p5b + 
+p5 <- (p5a + labs(tag = "D")) + p5b + 
   plot_layout(design = layout)
 
 
 # Put them all together ----
-p6 <- p1/p2/p3/p4/p5
+p6 <- p1 / p2 / p3 / p5 / p4
 p6
 
 save_plot("Figures/ManuscriptReady/Example_lipids_chromats_and_spectra.pdf", p6, 

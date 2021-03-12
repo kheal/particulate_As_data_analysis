@@ -222,8 +222,8 @@ extra_db <- extra_db %>%
   mutate(mz_13C = sapply(EmpiricalFormula_MH, 
                          function(x)getMolecule(x)$isotopes[[1]][1,2]))%>%
   mutate(ratio_12Cto13C = sapply(EmpiricalFormula_MH, 
-                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2]))%>%
-  mutate(Lipid_Name = paste0(LipidClass, round(mz, digits = 0)-1)) %>%
+                                 function(x)getMolecule(x)$isotopes[[1]][2,1]/getMolecule(x)$isotopes[[1]][2,2])) %>%
+  mutate(Lipid_Name = paste0(LipidClass, round(mz-1.5, digits = 0))) %>%
   select(LipidClass, Lipid_Name, EmpiricalFormula, mz, mz_13C, ratio_12Cto13C) %>% 
   unique()
 

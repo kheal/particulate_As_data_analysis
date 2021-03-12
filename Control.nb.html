@@ -244,11 +244,8 @@ summary {
 <h2>Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different righ tnow) and a few extras, split it up into smaller and larger masses to use for the inclusion list</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUlxcKVxuYGBgXG5gYGBcbmBgYCJ9 -->
-<pre class="r"><code>```r
-```r
-source(\SourceCode/database_construction.R\)</code></pre>
-<pre><code></code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUlwiKVxuYGBgIn0= -->
+<pre class="r"><code>source(&quot;SourceCode/database_construction.R&quot;)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -262,89 +259,159 @@ source(\SourceCode/database_construction.R\)</code></pre>
 <p>This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTA5MDEyMDIwLlJcIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkc1xuc291cmNlKFwiU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTIwMTAyNi5SXCIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzXG5gYGAifQ== -->
-<pre class="r"><code>source(&quot;SourceCode/extract_and_organize_ICAPdata09012020.R&quot;) #first run of Aslipids
-source(&quot;SourceCode/extract_and_organize_ICAPdata201026.R&quot;) #second run of Aslipids</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="extract-and-merge-ms2-data" class="section level2">
-<h2>Extract and merge MS2 data</h2>
-<p>This takes a long time (with retention time window of 20 s).<br />
-Only needs to be run again if we decide to merge differently</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9NUzJfZXh0cmFjdG9yLlJcIilcbmBgYCJ9 -->
-<pre class="r"><code>source(&quot;SourceCode/MS2_extractor.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="targeted-search-plots-ms1-ms1-of-c13-scaled-and-ms2-if-it-picked" class="section level2">
-<h2>Targeted Search, plots MS1, MS1 of C13 (scaled), and MS2 (if it picked)</h2>
-<p>Saves each sample as a PDF in Intermediates/</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS90YXJnZXRlZF9zZWFyY2guUlwiKVxuYGBgIn0= -->
-<pre class="r"><code>source(&quot;SourceCode/targeted_search.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="targeted-search-based-on-ms2-only" class="section level2">
-<h2>Targeted Search based on MS2 only</h2>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS90YXJnZXRlZF9zZWFyY2hfTVMyd29yay5SXCIpXG5gYGAifQ== -->
-<pre class="r"><code>source(&quot;SourceCode/targeted_search_MS2work.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="do-baseline-and-save-out-results-from-that-correction" class="section level1">
-<h1>Do baseline and save out results from that correction</h1>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBEb2VzIGJhc2VsaW5lLCBwZWFrIGRldGVjdGlvbiwgYW5kIHNtb290aGluZyBvZiBJQ1AgZGF0YSwgdGhlbiBnZXRzIGRldGVjdGVkIHBlYWtzXG5zb3VyY2UoXCJTb3VyY2VDb2RlL2dldF9wZWFrX2FyZWFzXzIwMTAyNi5SXCIpIFxuXG5gYGAifQ== -->
-<pre class="r"><code># Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks
-source(&quot;SourceCode/get_peak_areas_201026.R&quot;) 
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<div id="put-identifications-on-the-peaks-to-get" class="section level2">
-<h2>Put identifications on the peaks to get</h2>
-<p>Writes “Intermediates/IDd_Lipids_Quanified.csv”</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiU291cmNlQ29kZS9pZGVudGlmaWNhdGlvbl9vZl9xdWFudGlmaWVkX3BlYWtzLlJcIilcbmBgYCJ9 -->
-<pre class="r"><code>source(&quot;SourceCode/identification_of_quantified_peaks.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="calculate-75as-in-lipids-concentrations" class="section level2">
-<h2>Calculate 75As in lipids concentrations</h2>
-<p>Gets peak areas of As peaks in ICPMS data files Writes this out into Intermediates/AsLipids_ICPpeakareas.csv</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBHZXQgYXJlYSBvZiBjb2JhbHQgc3RhbmRhcmRzIGZvciBSRlxuc291cmNlKFwiU291cmNlQ29kZS9zdGFuZGFyZF9hcmVhX2V4dHJhY3Rpb24uUlwiKVxuXG4jIERvZXMgYmFzZWxpbmUsIHBlYWsgZGV0ZWN0aW9uLCBhbmQgc21vb3RoaW5nIG9mIElDUCBkYXRhLCB0aGVuIGdldHMgZGV0ZWN0ZWQgcGVha3NcbnNvdXJjZShcIlNvdXJjZUNvZGUvZ2V0X3BlYWtfYXJlYXNfMjAxMDI2LlJcIikgXG5cbiMgR2V0cyB1bmRlci10aGUtaHVtcCBhcmVhIGFuZCBjb25jZW50cmF0aW9ucyBmb3IgYWxsIHNhbXBsZXNcbnNvdXJjZShcIlNvdXJjZUNvZGUvdW5kZXJfdGhlX2h1bXBfYXJlYXMuUlwiKVxuYGBgIn0= -->
-<pre class="r"><code># Get area of cobalt standards for RF
-source(&quot;SourceCode/standard_area_extraction.R&quot;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTA5MDEyMDIwLlJcXCkgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkc1xuc291cmNlKFxcU291cmNlQ29kZS9leHRyYWN0X2FuZF9vcmdhbml6ZV9JQ0FQZGF0YTIwMTAyNi5SXFwpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzXG5gYGBcbmBgYCJ9 -->
+<pre class="r"><code>```r
+source(\SourceCode/extract_and_organize_ICAPdata09012020.R\) #first run of Aslipids
+source(\SourceCode/extract_and_organize_ICAPdata201026.R\) #second run of Aslipids</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
 
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Extract and merge MS2 data 
+This takes a long time (with retention time window of 20 s).  
+Only needs to be run again if we decide to merge differently
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9NUzJfZXh0cmFjdG9yLlJcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+source(\SourceCode/MS2_extractor.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Targeted Search, plots MS1, MS1 of C13 (scaled), and MS2 (if it picked)
+Saves each sample as a PDF in Intermediates/ 
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS90YXJnZXRlZF9zZWFyY2guUlxcKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+source(\SourceCode/targeted_search.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Targeted Search based on MS2 only
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS90YXJnZXRlZF9zZWFyY2hfTVMyd29yay5SXFwpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+source(\SourceCode/targeted_search_MS2work.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+# Do baseline and save out results from that correction
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBEb2VzIGJhc2VsaW5lLCBwZWFrIGRldGVjdGlvbiwgYW5kIHNtb290aGluZyBvZiBJQ1AgZGF0YSwgdGhlbiBnZXRzIGRldGVjdGVkIHBlYWtzXG5zb3VyY2UoXFxTb3VyY2VDb2RlL2dldF9wZWFrX2FyZWFzXzIwMTAyNi5SXFwpIFxuXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
 # Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks
-source(&quot;SourceCode/get_peak_areas_201026.R&quot;) 
+source(\SourceCode/get_peak_areas_201026.R\) 
+</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Put identifications on the peaks to get 
+Writes &quot;Intermediates/IDd_Lipids_IDd.csv&quot;
+This isn&#39;t used from here on out - just used this to get good ids 
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcU291cmNlQ29kZS9pZGVudGlmaWNhdGlvbl9vZl9xdWFudGlmaWVkX3BlYWtzLlJcXClcbmBgYFxuYGBgIn0= --&gt;
+
+```r
+```r
+source(\SourceCode/identification_of_quantified_peaks.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Calculate 75As in lipids concentrations
+Gets peak areas of As peaks in ICPMS data files
+Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBHZXQgYXJlYSBvZiBjb2JhbHQgc3RhbmRhcmRzIGZvciBSRlxuc291cmNlKFwiU291cmNlQ29kZS9zdGFuZGFyZF9hcmVhX2V4dHJhY3Rpb24uUlwiKVxuXG4jIEdldHMgdW5kZXItdGhlLWh1bXAgYXJlYSBhbmQgY29uY2VudHJhdGlvbnMgZm9yIGFsbCBzYW1wbGVzXG5zb3VyY2UoXCJTb3VyY2VDb2RlL3VuZGVyX3RoZV9odW1wX2FyZWFzLlJcIilcbmBgYCJ9 --&gt;
+
+```r
+# Get area of cobalt standards for RF
+source(&quot;SourceCode/standard_area_extraction.R&quot;)
 
 # Gets under-the-hump area and concentrations for all samples
 source(&quot;SourceCode/under_the_hump_areas.R&quot;)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIEdldHMgY29uY2VudHJhdGlvbnMgb2YgaWRlbnRpZmllZCBwZWFrcyBmcm9tIGFsbCBzYW1wbGVzXG5zb3VyY2UoXCJTb3VyY2VDb2RlL2JldHRlcl9wZWFrX2FyZWFzLlJcIilcbmBgYCJ9 -->
-<pre class="r"><code>
-# Gets concentrations of identified peaks from all samples
-source(&quot;SourceCode/better_peak_areas.R&quot;)</code></pre>
-<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gZmlsdGVyLmRlZmF1bHQoLiwgdGltZSA+IDUwMCAmIHRpbWUgPCAyNTAwKSA6IFxuICBhcmd1bWVudCBcInhcIiBpcyBtaXNzaW5nLCB3aXRoIG5vIGRlZmF1bHRcbiJ9 -->
+<pre><code>Error in filter.default(., time &gt; 500 &amp; time &lt; 2500) : 
+  argument &quot;x&quot; is missing, with no default</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -359,19 +426,84 @@ source(&quot;SourceCode/better_peak_areas.R&quot;)</code></pre>
 <p>Writes 2 figures into Figures/ManuscriptReady</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlJcIilcbmBgYCJ9 -->
-<pre class="r"><code>source(&quot;Figures/Rcode/Std_curves.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="preliminary-figure-of-lipid-icap-chromats" class="section level2">
-<h2>Preliminary figure of lipid ICAP chromats</h2>
-<p>Writes 1 figures into Figures/Preliminary</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SXCIpXG5gYGAifQ== -->
-<pre class="r"><code>source(&quot;Figures/Rcode/Lipid_Exploratory_Plots.R&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcRmlndXJlcy9SY29kZS9TdGRfY3VydmVzLlJcXClcbmBgYFxuYGBgIn0= -->
+<pre class="r"><code>```r
+source(\Figures/Rcode/Std_curves.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Preliminary figure of lipid ICAP chromats
+Writes 1 figures into Figures/Preliminary
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcRmlndXJlcy9SY29kZS9MaXBpZF9FeHBsb3JhdG9yeV9QbG90cy5SXFwpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+source(\Figures/Rcode/Lipid_Exploratory_Plots.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+
+
+
+#
+# Tables
+## Sample overview
+Writes sample overview table into Tables/ManuscriptReady
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUlxcKVxuYGBgXG5gYGAifQ== --&gt;
+
+```r
+```r
+source(\Tables/Rcode/Sample_descriptions.R\)</code></pre>
+<pre><code>
+&lt;!-- rnb-source-end --&gt;
+
+&lt;!-- rnb-chunk-end --&gt;
+
+
+&lt;!-- rnb-text-begin --&gt;
+
+
+## Table of bulk concentrations
+Working on this as of 10/12/20
+
+&lt;!-- rnb-text-end --&gt;
+
+
+&lt;!-- rnb-chunk-begin --&gt;
+
+
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc291cmNlKFxcVGFibGVzL1Jjb2RlL1F1YW50aXRhdGl2ZV9vdmVydmlldy5SXFwpXG5gYGBcbmBgYCJ9 --&gt;
+
+```r
+```r
+source(\Tables/Rcode/Quantitative_overview.R\)</code></pre>
+<p>```</p>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -379,38 +511,10 @@ source(&quot;SourceCode/better_peak_areas.R&quot;)</code></pre>
 </div>
 <div id="section-1" class="section level1">
 <h1></h1>
-</div>
-<div id="tables" class="section level1">
-<h1>Tables</h1>
-<div id="sample-overview" class="section level2">
-<h2>Sample overview</h2>
-<p>Writes sample overview table into Tables/ManuscriptReady</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUlwiKVxuYGBgIn0= -->
-<pre class="r"><code>source(&quot;Tables/Rcode/Sample_descriptions.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-<div id="table-of-bulk-concentrations" class="section level2">
-<h2>Table of bulk concentrations</h2>
-<p>Working on this as of 10/12/20</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc291cmNlKFwiVGFibGVzL1Jjb2RlL1F1YW50aXRhdGl2ZV9vdmVydmlldy5SXCIpXG5gYGAifQ== -->
-<pre class="r"><code>source(&quot;Tables/Rcode/Quantitative_overview.R&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-</div>
-</div>
-<div id="section-2" class="section level1">
-<h1></h1>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIERhdGFiYXNlIGNyZWF0aW9uIGNodW5rcwojIyBDcmVhdGUgYW4gTVMxIGRhdGFiYXNlIGZvciBBc0hDLCBBc0ZBLCBBc1N1Z1BMLCBseXNvQXNTdWdQTCwgQXNQQyAoc2luZ2xlIGFuZCBkb3VibGUgY2hhcmdlcyBhcmUgZGlmZmVyZW50IHJpZ2ggdG5vdykgYW5kIGEgZmV3IGV4dHJhcywgc3BsaXQgaXQgdXAgaW50byBzbWFsbGVyIGFuZCBsYXJnZXIgbWFzc2VzIHRvIHVzZSBmb3IgdGhlIGluY2x1c2lvbiBsaXN0CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUiIpCmBgYAoKaHR0cHM6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9DbHVNU0lEL2luc3QvZG9jL0NsdU1TSURfdHV0b3JpYWwuaHRtbAoKCiMgRGF0YSBhbmFseXNpcyBjaHVua3MKIyMgVGlkeSB1cCBJQ0FQIGRhdGEKVGhpcyBjb2RlIHRha2VzIGluIGNvbWJpbmVkIC5jc3YgZmlsZXMgZnJvbSB0aGUgSUNBUCAod2l0aCBZIGFuZCB0aW1lKSwgdGlkaWVzIHRoZW0gdXAgYSBiaXQgYW5kIHdyaXRlcyBvdXQgbmV3IGZpbGVzIGFuZCB3cml0ZXMgdGhlbSBpbiB0byB0aGUgcGl2b3RlZCBmb2xkZXIgd2l0aGluIHJhd2RhdApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEwOTAxMjAyMC5SIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkcwpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEyMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgRXh0cmFjdCBhbmQgbWVyZ2UgTVMyIGRhdGEgClRoaXMgdGFrZXMgYSBsb25nIHRpbWUgKHdpdGggcmV0ZW50aW9uIHRpbWUgd2luZG93IG9mIDIwIHMpLiAgCk9ubHkgbmVlZHMgdG8gYmUgcnVuIGFnYWluIGlmIHdlIGRlY2lkZSB0byBtZXJnZSBkaWZmZXJlbnRseQpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvTVMyX2V4dHJhY3Rvci5SIikKYGBgCgojIyBUYXJnZXRlZCBTZWFyY2gsIHBsb3RzIE1TMSwgTVMxIG9mIEMxMyAoc2NhbGVkKSwgYW5kIE1TMiAoaWYgaXQgcGlja2VkKQpTYXZlcyBlYWNoIHNhbXBsZSBhcyBhIFBERiBpbiBJbnRlcm1lZGlhdGVzLyAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL3RhcmdldGVkX3NlYXJjaC5SIikKYGBgCgojIyBUYXJnZXRlZCBTZWFyY2ggYmFzZWQgb24gTVMyIG9ubHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL3RhcmdldGVkX3NlYXJjaF9NUzJ3b3JrLlIiKQpgYGAKCiMgRG8gYmFzZWxpbmUgYW5kIHNhdmUgb3V0IHJlc3VsdHMgZnJvbSB0aGF0IGNvcnJlY3Rpb24KYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0KIyBEb2VzIGJhc2VsaW5lLCBwZWFrIGRldGVjdGlvbiwgYW5kIHNtb290aGluZyBvZiBJQ1AgZGF0YSwgdGhlbiBnZXRzIGRldGVjdGVkIHBlYWtzCnNvdXJjZSgiU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUiIpIAoKYGBgCgoKIyMgUHV0IGlkZW50aWZpY2F0aW9ucyBvbiB0aGUgcGVha3MgdG8gZ2V0IApXcml0ZXMgIkludGVybWVkaWF0ZXMvSURkX0xpcGlkc19RdWFuaWZpZWQuY3N2IgpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvaWRlbnRpZmljYXRpb25fb2ZfcXVhbnRpZmllZF9wZWFrcy5SIikKYGBgCgojIyBDYWxjdWxhdGUgNzVBcyBpbiBsaXBpZHMgY29uY2VudHJhdGlvbnMKR2V0cyBwZWFrIGFyZWFzIG9mIEFzIHBlYWtzIGluIElDUE1TIGRhdGEgZmlsZXMKV3JpdGVzIHRoaXMgb3V0IGludG8gSW50ZXJtZWRpYXRlcy9Bc0xpcGlkc19JQ1BwZWFrYXJlYXMuY3N2CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CiMgR2V0IGFyZWEgb2YgY29iYWx0IHN0YW5kYXJkcyBmb3IgUkYKc291cmNlKCJTb3VyY2VDb2RlL3N0YW5kYXJkX2FyZWFfZXh0cmFjdGlvbi5SIikKCiMgR2V0cyB1bmRlci10aGUtaHVtcCBhcmVhIGFuZCBjb25jZW50cmF0aW9ucyBmb3IgYWxsIHNhbXBsZXMKc291cmNlKCJTb3VyY2VDb2RlL3VuZGVyX3RoZV9odW1wX2FyZWFzLlIiKQoKIyBHZXRzIGNvbmNlbnRyYXRpb25zIG9mIGlkZW50aWZpZWQgcGVha3MgZnJvbSBhbGwgc2FtcGxlcwpzb3VyY2UoIlNvdXJjZUNvZGUvYmV0dGVyX3BlYWtfYXJlYXMuUiIpCmBgYAoKCgoKCgoKCgoKIwojIEZpZ3VyZXMKIyMgU3RhbmRhcmQgY3VydmUgZmlndXJlcwpXcml0ZXMgMiBmaWd1cmVzIGludG8gRmlndXJlcy9NYW51c2NyaXB0UmVhZHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL1N0ZF9jdXJ2ZXMuUiIpCmBgYAoKIyMgUHJlbGltaW5hcnkgZmlndXJlIG9mIGxpcGlkIElDQVAgY2hyb21hdHMKV3JpdGVzIDEgZmlndXJlcyBpbnRvIEZpZ3VyZXMvUHJlbGltaW5hcnkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL0xpcGlkX0V4cGxvcmF0b3J5X1Bsb3RzLlIiKQpgYGAKCgoKCiMKIyBUYWJsZXMKIyMgU2FtcGxlIG92ZXJ2aWV3CldyaXRlcyBzYW1wbGUgb3ZlcnZpZXcgdGFibGUgaW50byBUYWJsZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUiIpCmBgYAoKIyMgVGFibGUgb2YgYnVsayBjb25jZW50cmF0aW9ucwpXb3JraW5nIG9uIHRoaXMgYXMgb2YgMTAvMTIvMjAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJUYWJsZXMvUmNvZGUvUXVhbnRpdGF0aXZlX292ZXJ2aWV3LlIiKQpgYGAKIw==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udHJvbCBkYXRhIGFuYWx5c2lzIHdvcmtib29rIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIERhdGFiYXNlIGNyZWF0aW9uIGNodW5rcwojIyBDcmVhdGUgYW4gTVMxIGRhdGFiYXNlIGZvciBBc0hDLCBBc0ZBLCBBc1N1Z1BMLCBseXNvQXNTdWdQTCwgQXNQQyAoc2luZ2xlIGFuZCBkb3VibGUgY2hhcmdlcyBhcmUgZGlmZmVyZW50IHJpZ2ggdG5vdykgYW5kIGEgZmV3IGV4dHJhcywgc3BsaXQgaXQgdXAgaW50byBzbWFsbGVyIGFuZCBsYXJnZXIgbWFzc2VzIHRvIHVzZSBmb3IgdGhlIGluY2x1c2lvbiBsaXN0CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiU291cmNlQ29kZS9kYXRhYmFzZV9jb25zdHJ1Y3Rpb24uUiIpCmBgYAoKaHR0cHM6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9DbHVNU0lEL2luc3QvZG9jL0NsdU1TSURfdHV0b3JpYWwuaHRtbAoKCiMgRGF0YSBhbmFseXNpcyBjaHVua3MKIyMgVGlkeSB1cCBJQ0FQIGRhdGEKVGhpcyBjb2RlIHRha2VzIGluIGNvbWJpbmVkIC5jc3YgZmlsZXMgZnJvbSB0aGUgSUNBUCAod2l0aCBZIGFuZCB0aW1lKSwgdGlkaWVzIHRoZW0gdXAgYSBiaXQgYW5kIHdyaXRlcyBvdXQgbmV3IGZpbGVzIGFuZCB3cml0ZXMgdGhlbSBpbiB0byB0aGUgcGl2b3RlZCBmb2xkZXIgd2l0aGluIHJhd2RhdApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEwOTAxMjAyMC5SIikgI2ZpcnN0IHJ1biBvZiBBc2xpcGlkcwpzb3VyY2UoIlNvdXJjZUNvZGUvZXh0cmFjdF9hbmRfb3JnYW5pemVfSUNBUGRhdGEyMDEwMjYuUiIpICNzZWNvbmQgcnVuIG9mIEFzbGlwaWRzCmBgYAoKIyMgRXh0cmFjdCBhbmQgbWVyZ2UgTVMyIGRhdGEgClRoaXMgdGFrZXMgYSBsb25nIHRpbWUgKHdpdGggcmV0ZW50aW9uIHRpbWUgd2luZG93IG9mIDIwIHMpLiAgCk9ubHkgbmVlZHMgdG8gYmUgcnVuIGFnYWluIGlmIHdlIGRlY2lkZSB0byBtZXJnZSBkaWZmZXJlbnRseQpgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvTVMyX2V4dHJhY3Rvci5SIikKYGBgCgojIyBUYXJnZXRlZCBTZWFyY2gsIHBsb3RzIE1TMSwgTVMxIG9mIEMxMyAoc2NhbGVkKSwgYW5kIE1TMiAoaWYgaXQgcGlja2VkKQpTYXZlcyBlYWNoIHNhbXBsZSBhcyBhIFBERiBpbiBJbnRlcm1lZGlhdGVzLyAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL3RhcmdldGVkX3NlYXJjaC5SIikKYGBgCgojIyBUYXJnZXRlZCBTZWFyY2ggYmFzZWQgb24gTVMyIG9ubHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJTb3VyY2VDb2RlL3RhcmdldGVkX3NlYXJjaF9NUzJ3b3JrLlIiKQpgYGAKCiMgRG8gYmFzZWxpbmUgYW5kIHNhdmUgb3V0IHJlc3VsdHMgZnJvbSB0aGF0IGNvcnJlY3Rpb24KYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0KIyBEb2VzIGJhc2VsaW5lLCBwZWFrIGRldGVjdGlvbiwgYW5kIHNtb290aGluZyBvZiBJQ1AgZGF0YSwgdGhlbiBnZXRzIGRldGVjdGVkIHBlYWtzCnNvdXJjZSgiU291cmNlQ29kZS9nZXRfcGVha19hcmVhc18yMDEwMjYuUiIpIAoKYGBgCgojIyBQdXQgaWRlbnRpZmljYXRpb25zIG9uIHRoZSBwZWFrcyB0byBnZXQgCldyaXRlcyAiSW50ZXJtZWRpYXRlcy9JRGRfTGlwaWRzX0lEZC5jc3YiClRoaXMgaXNuJ3QgdXNlZCBmcm9tIGhlcmUgb24gb3V0IC0ganVzdCB1c2VkIHRoaXMgdG8gZ2V0IGdvb2QgaWRzIApgYGB7ciwgd2FybmluZz1GQUxTRSwgbWVzc2FnZSA9IEZBTFNFfQpzb3VyY2UoIlNvdXJjZUNvZGUvaWRlbnRpZmljYXRpb25fb2ZfcXVhbnRpZmllZF9wZWFrcy5SIikKYGBgCgojIyBDYWxjdWxhdGUgNzVBcyBpbiBsaXBpZHMgY29uY2VudHJhdGlvbnMKR2V0cyBwZWFrIGFyZWFzIG9mIEFzIHBlYWtzIGluIElDUE1TIGRhdGEgZmlsZXMKV3JpdGVzIHRoaXMgb3V0IGludG8gSW50ZXJtZWRpYXRlcy9Bc0xpcGlkc19JQ1BwZWFrYXJlYXMuY3N2CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CiMgR2V0IGFyZWEgb2YgY29iYWx0IHN0YW5kYXJkcyBmb3IgUkYKc291cmNlKCJTb3VyY2VDb2RlL3N0YW5kYXJkX2FyZWFfZXh0cmFjdGlvbi5SIikKCiMgR2V0cyB1bmRlci10aGUtaHVtcCBhcmVhIGFuZCBjb25jZW50cmF0aW9ucyBmb3IgYWxsIHNhbXBsZXMKc291cmNlKCJTb3VyY2VDb2RlL3VuZGVyX3RoZV9odW1wX2FyZWFzLlIiKQoKIyBHZXRzIGNvbmNlbnRyYXRpb25zIG9mIGlkZW50aWZpZWQgcGVha3MgZnJvbSBhbGwgc2FtcGxlcwpzb3VyY2UoIlNvdXJjZUNvZGUvYmV0dGVyX3BlYWtfYXJlYXMuUiIpCmBgYAoKCgoKCgoKCgoKIwojIEZpZ3VyZXMKIyMgU3RhbmRhcmQgY3VydmUgZmlndXJlcwpXcml0ZXMgMiBmaWd1cmVzIGludG8gRmlndXJlcy9NYW51c2NyaXB0UmVhZHkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL1N0ZF9jdXJ2ZXMuUiIpCmBgYAoKIyMgUHJlbGltaW5hcnkgZmlndXJlIG9mIGxpcGlkIElDQVAgY2hyb21hdHMKV3JpdGVzIDEgZmlndXJlcyBpbnRvIEZpZ3VyZXMvUHJlbGltaW5hcnkKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJGaWd1cmVzL1Jjb2RlL0xpcGlkX0V4cGxvcmF0b3J5X1Bsb3RzLlIiKQpgYGAKCgoKCiMKIyBUYWJsZXMKIyMgU2FtcGxlIG92ZXJ2aWV3CldyaXRlcyBzYW1wbGUgb3ZlcnZpZXcgdGFibGUgaW50byBUYWJsZXMvTWFudXNjcmlwdFJlYWR5CmBgYHtyLCB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlID0gRkFMU0V9CnNvdXJjZSgiVGFibGVzL1Jjb2RlL1NhbXBsZV9kZXNjcmlwdGlvbnMuUiIpCmBgYAoKIyMgVGFibGUgb2YgYnVsayBjb25jZW50cmF0aW9ucwpXb3JraW5nIG9uIHRoaXMgYXMgb2YgMTAvMTIvMjAKYGBge3IsIHdhcm5pbmc9RkFMU0UsIG1lc3NhZ2UgPSBGQUxTRX0Kc291cmNlKCJUYWJsZXMvUmNvZGUvUXVhbnRpdGF0aXZlX292ZXJ2aWV3LlIiKQpgYGAKIw==</div>
 
 
 
