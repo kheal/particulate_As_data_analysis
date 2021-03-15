@@ -4,7 +4,7 @@ output: html_notebook
 ---
 
 # Database creation chunks
-## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different righ tnow) and a few extras, split it up into smaller and larger masses to use for the inclusion list
+## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different right now) and a few extras, split it up into smaller and larger masses to use for the inclusion list
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/database_construction.R")
 ```
@@ -47,7 +47,7 @@ source("SourceCode/get_peak_areas_201026.R")
 
 ## Put identifications on the peaks to get 
 Writes "Intermediates/IDd_Lipids_IDd.csv"
-This isn't used from here on out - just used this to get good ids 
+This isn't used from here on out - just used this to get good ids initially which were confirmed and saved in "MetaData/Targeted_visually_IDd_2.csv"
 ```{r, warning=FALSE, message = FALSE}
 source("SourceCode/identification_of_quantified_peaks.R")
 ```

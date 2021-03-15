@@ -83,17 +83,17 @@ SugPL_db <- SugPL_db %>%
   as_tibble() %>%
   mutate(LipidClass = lipid_class) %>%
   mutate(EmpiricalFormula = paste0("AsO14P", "C", 
-                                   tail_length1+tail_length2+15, 
+                                   tail_length1+tail_length2+13, 
                                    "H", 
                                    2*(tail_length1+tail_length2)
                                    -2*(saturation_num1+saturation_num2)
-                                   +28))%>%
+                                   +24))%>%
   mutate(EmpiricalFormula_MH = paste0("AsO14P", "C", 
-                                   tail_length1+tail_length2+15, 
+                                   tail_length1+tail_length2+13, 
                                    "H", 
                                    2*(tail_length1+tail_length2)
                                    -2*(saturation_num1+saturation_num2)
-                                   +29)) %>%
+                                   +25)) %>%
   mutate(mz = sapply(EmpiricalFormula_MH, 
                      function(x)getMolecule(x)$exactmass)) %>%
   mutate(mz_13C = sapply(EmpiricalFormula_MH, 

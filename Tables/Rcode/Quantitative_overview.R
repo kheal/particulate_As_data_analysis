@@ -1,3 +1,5 @@
+# TO DO: breaks about at line 70, pick it up there soon
+
 library(here)
 library(tidyverse)
 library(xtable)
@@ -54,7 +56,11 @@ quan_dat4 <- quan_dat3 %>%
 
 # Adding all IDd lipids as classes
 quan_dat_test <- indiv_dat %>%
-  mutate(lipid_type = ifelse(str_detect(lipid_ID, "HC"), "HC", "AsSugPL")) %>%
+  mutate(lipid_type = ifelse(str_detect(lipid_ID, "HC"), "AsHC",
+                             ifelse(str_detect(lipid_ID, "AsSugPL"), "AsSugPL",
+                                    ifelse(str_detect(lipid_ID, "AsSugPeL"), "AsSugPeL",
+                                           ifelse(str_detect(lipid_ID, "mz"), "unknown, but m/z known",
+                                                  "unknown")))))%>%
   group_by(lipid_type, sampleID) %>%
   summarise(total = sum(pMolAs_enviro)) %>%
   pivot_wider(id_cols = sampleID, names_from = lipid_type, values_from = total) %>%
@@ -64,7 +70,7 @@ quan_dat_test <- indiv_dat %>%
 quan_dat5 <- quan_dat4 %>%
   left_join(quan_dat_test, by = "Sample") %>%
   mutate(AsSugPL = round(AsSugPL, digits =2),
-         HC = round(HC, digits =2)) %>%
+         HC = round(HC, digits =2))%>%
   rename(`\\makecell{identified  \\\\ AsSugPL (pM)}`= AsSugPL,
          `\\makecell{identified  \\\\ AsHC (pM)}` = HC)
   

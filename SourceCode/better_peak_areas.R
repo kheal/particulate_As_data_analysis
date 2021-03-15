@@ -43,7 +43,15 @@ ICP_to_integrate = dat_combo %>% filter(sampleID == peaks_to_integrate$sampleID[
   filter(time > (peaks_to_integrate$rt_sec_lower[i]) & 
            time < (peaks_to_integrate$rt_sec_higher[i])) %>%
   filter(intensity_corrected_smoothed > 0)
-areas[i] = AUC(ICP_to_integrate$time, ICP_to_integrate$intensity_corrected_smoothed)
+
+ICP_to_integrate_2 <- ICP_to_integrate %>%
+  mutate(signal_scaler = ifelse(time < 300, 1,
+                                ifelse(time > 1500, 0.81,
+                                       -0.00016*time + 1.047))) %>%
+  mutate(intensity_smoothed_signaladjust = intensity_corrected_smoothed/signal_scaler)
+
+
+areas[i] = AUC(ICP_to_integrate_2$time, ICP_to_integrate_2$intensity_smoothed_signaladjust)
 #plot(ICP_to_integrate$time, ICP_to_integrate$intensity_corrected_smoothed, type = "l")
 }
 
