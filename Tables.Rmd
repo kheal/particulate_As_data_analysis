@@ -11,7 +11,7 @@ library(cowplot)
 library(here)
 ```
 
-# Main text table (LATEX files)
+# Main text table 
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 #Overview of Quantitative Results
 source('Tables/Rcode/Quantitative_overview.R')
@@ -35,8 +35,6 @@ remove(list = ls())
 # MS2 database of arsenic-containing fragments and lipid classes associated with each
 source('Tables/RCode/full_DB_MS2.R')
 remove(list = ls())
-
-
 ```
 
 

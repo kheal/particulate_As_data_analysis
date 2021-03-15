@@ -20,8 +20,9 @@ samp_info2 <- samp_info %>%
 
 # Make QE datafiles look nice
 samp_info3 <- samp_info %>%
-  select(`Sample ID`, QE_crudeHM_ID:QE_eluteLM_ID) %>%
+  select(`Sample ID`, Collection_method, QE_crudeHM_ID:QE_eluteLM_ID) %>%
   rename(Sample = `Sample ID`,
+         `Collection method` = Collection_method,
          `Crude extract, high mass HRESIMS data` = QE_crudeHM_ID,
          `Crude extract, low mass HRESIMS data` = QE_crudeLM_ID,
          `Silica-cleaned extract, high mass HRESIMS data` = QE_eluteHM_ID,
