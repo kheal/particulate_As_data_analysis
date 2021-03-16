@@ -386,7 +386,7 @@ p5a <- ggplot() +
   geom_line(data = icap_dat_sub, 
             aes(x = time/60, y = intensity_smoothed*1000), color = "grey80",
             alpha = 0.6, size = 0.3)+
-  scale_x_continuous("Time (min)", limits = c(12, 33)) +
+  scale_x_continuous("Time (min)", limits = c(12, 30)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
   my_theme

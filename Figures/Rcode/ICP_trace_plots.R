@@ -27,10 +27,10 @@ peaks2 <- peaks %>% left_join(max_intensity, by = "Sample ID") %>%
   mutate(lipid_type = ifelse(str_detect(lipid_ID, "HC"), "AsHC",
                              ifelse(str_detect(lipid_ID, "AsSugPL"), "AsSugPL",
                                     ifelse(str_detect(lipid_ID, "AsSugPeL"), "AsSugPeL",
-                                    ifelse(str_detect(lipid_ID, "mz"), "unknown, but m/z known",
+                                    ifelse(str_detect(lipid_ID, "mz"), "unknown, \nbut m/z known",
                                     "unknown")))))
 
-peaks2$lipid_type = factor(peaks2$lipid_type, levels = c("AsHC", "AsSugPL", "AsSugPeL", "unknown, but m/z known", "unknown"))
+peaks2$lipid_type = factor(peaks2$lipid_type, levels = c("AsHC", "AsSugPL", "AsSugPeL", "unknown, \nbut m/z known", "unknown"))
 
 pal <- c(park_palette("Badlands", 4), 'grey80')
 # Plot up the ICP traces
@@ -48,12 +48,14 @@ g <- ggplot()+
   scale_fill_manual(values = pal)+
   theme(strip.background = element_blank(),
         strip.text = element_text(face = "bold", size = 9),
-        #strip.placement = "inside",
         axis.text = element_text(size = 7),
         axis.title = element_text(size = 8),
         legend.title = element_blank(),
-        legend.text = element_text(size = 7),
-        legend.position = c(0.80, 0.95))
+        legend.text = element_text(size = 5),
+        legend.position = c(0.83, 0.95),
+        legend.background = element_rect(fill="white",
+                                         size=0.5, linetype="solid", 
+                                         colour ="white"))
   
 g
 

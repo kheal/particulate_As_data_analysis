@@ -25,7 +25,7 @@ remove(list = ls())
 
 # Figure with list of lipids, names, mz, time, Y/N concentration for each sample
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
-
+source('Figures/Rcode/Lipid_sample_tile.R')
 ```
 
 
