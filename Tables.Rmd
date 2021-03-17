@@ -32,27 +32,25 @@ remove(list = ls())
 source('Tables/RCode/full_DB.R')
 remove(list = ls())
 
-# MS2 database of arsenic-containing fragments and lipid classes associated with each
+# MS2 database of arsenic-containing fragments and lipid classes associated with each (Table S4)
 source('Tables/RCode/full_DB_MS2.R')
 remove(list = ls())
+
+# Table S5 made manually but is the observed and expected m/z for the AsSugPeL
 ```
 
-
-BELOW THIS IS OLD AND NEEDS REVAMPING / REVISITING
-
-#Supplemental Tables (CSVs)
+#Merge all the supplemental csv files into one big xcel file here
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
-
-```
-
-#Merge all the csv files into one big xcel file here
-```{r, error = FALSE, warning=FALSE, message=FALSE}
-library(XLConnect) #requires Java between 8 and 11
+library(XLConnect) 
 file.remove("Tables/Manuscript_tables/SuppTables/Combined_SuppTables.xlsx")
 
 #write out the order of the tables you want
 supp.tables <- 
-  c("Tables/ManuscriptReady/SuppTables/DB_summary_full_MS1.csv")
+  c("Tables/ManuscriptReady/SuppTables/sample_descriptions_metadata.csv",
+    "Tables/ManuscriptReady/SuppTables/DB_summary.csv",
+    "Tables/ManuscriptReady/SuppTables/DB_summary_full_MS1.csv",
+    "Tables/ManuscriptReady/SuppTables/DB_summary_full_MS2.csv",
+    "Tables/ManuscriptReady/SuppTables/ppm_AsSugPeLs.csv")
 
 files_nms <- basename(supp.tables) %>% 
   str_remove(".csv") %>%
@@ -61,7 +59,7 @@ files_nms <- basename(supp.tables) %>%
   str_remove("_") 
 
 files_nms2 <- files_nms %>% as.data.frame() %>%
-  mutate(sheet_ID = paste0("S", row_number()+3, "_", .))
+  mutate(sheet_ID = paste0("S", row_number()+1, "_", .))
 
 f.out <- "Tables/ManuscriptReady/SuppTables/Combined_SuppTables.xlsx"
 wb <- loadWorkbook(f.out, create=TRUE)
