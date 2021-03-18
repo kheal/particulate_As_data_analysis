@@ -1,5 +1,3 @@
-####### This code finds peaks on ICPMS data and calculates each peak area, based on Jiwoon's code
-
 # Load appropriate libraries ---
 library(baseline)
 library(signal)
@@ -36,6 +34,7 @@ samples <- ICPdata_all %>% select(sampleID) %>% unique() %>%
   filter(!str_detect(sampleID, paste(blank_tags, collapse = '|')))
 
 peaks_df_all <- list()
+
 # call out one sample at a time
 # loop around each sample-----
 for (j in 1:length(samples$sampleID)){
@@ -59,7 +58,7 @@ ICPdat_onesamp_onelement_wbl <- ICPdat_onesamp_onelement %>%
          intensity_corrected =  c(getCorrected(bc.als))) %>%
   mutate(intensity_smoothed = sgolayfilt(intenstiy, p = 15),
          intensity_corrected_smoothed = sgolayfilt(intensity_corrected, p = 15))
-write_csv(ICPdat_onesamp_onelement_wbl, paste0("Intermediates/Baseline_CSVs/", samples$sampleID[j], "_ICPwithbaseline.csv"))
+#write_csv(ICPdat_onesamp_onelement_wbl, paste0("Intermediates/Baseline_CSVs/", samples$sampleID[j], "_ICPwithbaseline.csv"))
 
 # Find detected peaks (adapted from findICPpeaks(), with min intensity good for As)-----
 ICP<-ICPdat_onesamp_onelement_wbl %>% 

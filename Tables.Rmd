@@ -11,7 +11,7 @@ library(cowplot)
 library(here)
 ```
 
-# Main text table 
+# Main text table of quantitative summary
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 #Overview of Quantitative Results
 source('Tables/Rcode/Quantitative_overview.R')

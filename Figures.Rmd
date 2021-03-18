@@ -10,59 +10,37 @@ Figures for particulate arsenic manuscript and associated presentations
 library(tidyverse)
 ```
 
-# Figure with lipid ICP traces for all 4 samples
+# Figure with lipid ICP traces for all 4 samples (Figure 1)
 Shows which lipids we IDd, other non-IDd lipids too
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 source('Figures/Rcode/ICP_trace_plots.R')
 remove(list = ls())
 ```
 
-# Figure with example ICP, MS1, MS2 from AsSugPL954 (from PS1), AsHC (from BATS), unknown early (from ALOHA), and unknown late (from PS3)
+# Figure with example ICP, MS1, MS2 from AsSugPL954 (from PS1), AsHC (from BATS), unknown early (from ALOHA), and unknown late (from PS3) (Figure 3)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 source('Figures/Rcode/Example_individual_lipids.R')
 remove(list = ls())
 ```
 
-# Figure with list of lipids, names, mz, time, Y/N concentration for each sample
+# Figure with list of lipids, names, mz, time, Y/N concentration for each sample (Figure 4)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 source('Figures/Rcode/Lipid_sample_tile.R')
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Standard curve plots
-```{r, error = FALSE, warning=FALSE, message=FALSE}
-source('Figures/Rcode/Std_curves.R')
 remove(list = ls())
+
 ```
 
-
-
-
-# Figures for each individual lipid in each sample (targeted)
+# Figure of ALOHA unknowns for MS2 (Figure S1)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
-# High mass lipids
-source('Figures/Rcode/Individual_lipid_plots.R')
-
-# Low mass lipids
-source('Figures/Rcode/Individual_lipid_plots_lowmass.R')
-
-# ALOHA unknowns
 source('Figures/Rcode/Example_individual_lipids_unknowns_ALOHA.R')
-
-# PS3 unknowns
-source('Figures/Rcode/Example_individual_lipids_unknowns_PS2.R')
+remove(list = ls())
 
 ```
 
+
+# Figure of ALOHA unknowns for MS2 (Figure S2)
+```{r, error = FALSE, warning=FALSE, message=FALSE}
+source('Figures/Rcode/Example_individual_lipids_unknowns_ALOHA.R')
+remove(list = ls())
+
+```

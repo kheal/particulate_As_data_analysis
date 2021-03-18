@@ -1,108 +1,71 @@
 ---
-title: "Control data analysis workbook"
-output: html_notebook
+title: "Control data analysis workbook for Arsenolipid MS"
+author: "Katherine Heal"
+date: "March 16 2021"
+output: html_document
 ---
 
-# Database creation chunks
-## Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different right now) and a few extras, split it up into smaller and larger masses to use for the inclusion list
+# Database creation 
+Create an MS1 database for AsHC, AsFA, AsSugPL, lysoAsSugPL, AsPC (single and double charges are different right now) and a few extras, split it up into smaller and larger masses to use for the inclusion list
 ```{r, warning=FALSE, message = FALSE}
+# Inputs are "MetaData/DB_construction.csv", output is "MetaData/AsLipidDatabase/full_MS1db.csv" and inclusion lists for QE analysis
+
 source("SourceCode/database_construction.R")
+remove(list = ls())
 ```
 
-https://www.bioconductor.org/packages/devel/bioc/vignettes/CluMSID/inst/doc/CluMSID_tutorial.html
-
+# Extract and merge MS2 data in preparation for analysis
+This takes a long time (with retention time window of 20 s). It pulls out the MS2s from the DDA .mzxml files and merges several scans (with a rt window of 20s) with matching precurors. Writes out 
+Only needs to be run again if we decide to merge differently
+```{r, warning=FALSE, message = FALSE}
+# Inputs are all the .mzxml files within the folder ""RawDat/20201026_QE_secondLipidRun", output is rdata saved into the "RawDat/20201026_QE_secondLipidRun" folder as _mergedMS2s
+source("SourceCode/MS2_extractor.R")
+remove(list = ls())
+```
 
 # Data analysis chunks
 ## Tidy up ICAP data
 This code takes in combined .csv files from the ICAP (with Y and time), tidies them up a bit and writes out new files and writes them in to the pivoted folder within rawdat
 ```{r, warning=FALSE, message = FALSE}
-source("SourceCode/extract_and_organize_ICAPdata09012020.R") #first run of Aslipids
+# Inputs are four files within "RawDat/ICAP_run_20200901" (straight from ICAP), output as "RawDat/ICAP_run_20200901/Pivoted/" for further analysis
+source("SourceCode/extract_and_organize_ICAPdata09012020.R") #bulk As data
 source("SourceCode/extract_and_organize_ICAPdata201026.R") #second run of Aslipids
+remove(list = ls())
 ```
 
-## Extract and merge MS2 data 
-This takes a long time (with retention time window of 20 s).  
-Only needs to be run again if we decide to merge differently
+## Calculate bulk arsenic concentrations
+```{r}
+# Inputs are pivoted from extract_and_organize_ICAPdata09012020.R and metadat, output is "Intermediates/bulk_quantification.csv"
+source("SourceCode/concentrations_of_bulk_samps.R")
+remove(list = ls())
+```
+
+
+## Do baseline and save out results from that correction
 ```{r, warning=FALSE, message = FALSE}
-source("SourceCode/MS2_extractor.R")
-```
-
-## Targeted Search, plots MS1, MS1 of C13 (scaled), and MS2 (if it picked)
-Saves each sample as a PDF in Intermediates/ 
-```{r, warning=FALSE, message = FALSE}
-source("SourceCode/targeted_search.R")
-```
-
-## Targeted Search based on MS2 only
-```{r, warning=FALSE, message = FALSE}
-source("SourceCode/targeted_search_MS2work.R")
-```
-
-# Do baseline and save out results from that correction
-```{r, warning=FALSE, message = FALSE}
-# Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks
-source("SourceCode/get_peak_areas_201026.R") 
+# Does baseline, peak detection, and smoothing of ICP data, then gets detected peaks,  Inputs are pivoted "RawDat/ICAP_run_20200901/Pivoted/", Outputs are Intermediates/Baseline_CSVs/", one file per sample
+source("SourceCode/do_baseline_calculation.R") 
+remove(list = ls())
 
 ```
 
-## Put identifications on the peaks to get 
-Writes "Intermediates/IDd_Lipids_IDd.csv"
-This isn't used from here on out - just used this to get good ids initially which were confirmed and saved in "MetaData/Targeted_visually_IDd_2.csv"
-```{r, warning=FALSE, message = FALSE}
-source("SourceCode/identification_of_quantified_peaks.R")
-```
-
-## Calculate 75As in lipids concentrations
+## Calculate 75As concentration in lipids from ICAP data
 Gets peak areas of As peaks in ICPMS data files
 Writes this out into Intermediates/AsLipids_ICPpeakareas.csv
 ```{r, warning=FALSE, message = FALSE}
 # Get area of cobalt standards for RF
 source("SourceCode/standard_area_extraction.R")
+remove(list = ls())
+
 
 # Gets under-the-hump area and concentrations for all samples
 source("SourceCode/under_the_hump_areas.R")
+remove(list = ls())
+
 
 # Gets concentrations of identified peaks from all samples
 source("SourceCode/better_peak_areas.R")
+remove(list = ls())
+
 ```
 
-
-
-
-
-
-
-
-
-
-#
-# Figures
-## Standard curve figures
-Writes 2 figures into Figures/ManuscriptReady
-```{r, warning=FALSE, message = FALSE}
-source("Figures/Rcode/Std_curves.R")
-```
-
-## Preliminary figure of lipid ICAP chromats
-Writes 1 figures into Figures/Preliminary
-```{r, warning=FALSE, message = FALSE}
-source("Figures/Rcode/Lipid_Exploratory_Plots.R")
-```
-
-
-
-
-#
-# Tables
-## Sample overview
-Writes sample overview table into Tables/ManuscriptReady
-```{r, warning=FALSE, message = FALSE}
-source("Tables/Rcode/Sample_descriptions.R")
-```
-
-## Table of bulk concentrations
-Working on this as of 10/12/20
-```{r, warning=FALSE, message = FALSE}
-source("Tables/Rcode/Quantitative_overview.R")
-```
-#
