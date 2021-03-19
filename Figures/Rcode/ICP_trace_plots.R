@@ -44,19 +44,19 @@ g <- ggplot()+
   geom_hline(yintercept = 0)+
   facet_wrap(facets = vars(`Sample ID`), ncol = 1, scales = "free_y") +
   scale_y_continuous("Intensity", limits = c(0,NA), expand = c(0, NA)) +
-  scale_x_continuous("Time (min)", limits = c(12, 33)) +
+  scale_x_continuous("Time (min)", limits = c(12.8, 33), expand = c(0, NA)) +
   scale_fill_manual(values = pal)+
   theme(strip.background = element_blank(),
-        strip.text = element_text(face = "bold", size = 9),
-        axis.text = element_text(size = 7),
-        axis.title = element_text(size = 8),
+        strip.text = element_text(face = "bold", size = 7),
+        axis.text = element_text(size = 6),
+        axis.title = element_text(size = 7),
         legend.title = element_blank(),
-        legend.text = element_text(size = 5),
-        legend.position = c(0.83, 0.95),
-        legend.background = element_rect(fill="white",
+        legend.text = element_text(size = 6),
+        legend.position = c(0.75, 0.95),
+        legend.background = element_rect(fill="white", 
                                          size=0.5, linetype="solid", 
                                          colour ="white"))
   
 g
 
-save_plot("Figures/ManuscriptReady/ICP_traces.pdf", g, base_height = 6, base_width = 5)
+save_plot("Figures/ManuscriptReady/ICP_traces.pdf", g, base_width = 4, base_height = 4.5)
