@@ -40,11 +40,11 @@ AAABBBB
 # Plot 3 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown lipid with m/z = 1001.4844"
+lipid_name_to_plot <- "unknown lipid with m/z = 1001.484"
 rt_lipid = 20.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
-mass = 1001.4844
+mass = 1001.484
 icap_dat_sub <- icap_dat %>% filter(sampleID == sample_name) %>%
   filter(time > 8*60)
 
@@ -121,11 +121,11 @@ p3
 # Plot 4 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown lipid with m/z = 1003.5009"
+lipid_name_to_plot <- "unknown lipid with m/z = 1003.500"
 rt_lipid = 21.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
-mass = 1003.5009
+mass = 1003.500
 icap_dat_sub <- icap_dat %>% filter(sampleID == sample_name) %>%
   filter(time > 8*60)
 

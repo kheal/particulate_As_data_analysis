@@ -76,6 +76,12 @@ dat7$lipid_type = factor(dat7$lipid_type, levels = c("AsHC", "AsSugPL", "AsSugPe
 # Order samples
 # Order lipids by RT
 pal <- c(park_palette("Badlands", 4), 'grey80')
+dat7$`Sample ID` <- str_wrap(dat7$`Sample ID`, width = 5) 
+dat7 <- dat7 %>%
+  filter(!(`Sample ID` == "ETNP-\nPS2" &
+             lipid_ID == "AsSugPL982" &
+             is.na(pMolAs_enviro)))
+
 g <- ggplot(data = dat7, aes(x =`Sample ID`,  y = long_name, 
                              fill = lipid_type, 
                              label = round(pMolAs_enviro*1000, digits = 0))) +
@@ -86,7 +92,6 @@ g <- ggplot(data = dat7, aes(x =`Sample ID`,  y = long_name,
   theme(axis.title = element_blank(), 
         axis.text.y = ggtext::element_markdown())
 g
-
 
 
 save_plot("Figures/ManuscriptReady/Results_tiles.pdf", g, base_height = 4.5, base_width = 4)
