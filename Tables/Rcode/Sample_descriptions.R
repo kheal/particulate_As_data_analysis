@@ -9,10 +9,11 @@ samp_info <- read_csv(meta_dat_filename)
 # Make it look nice
 samp_info2 <- samp_info %>%
   select(`Sample ID`:L_digested) %>%
+  select(-Collection_method) %>%
   arrange(`Sample ID`) %>%
   rename(Date = Date_Collected,
          Sample = `Sample ID`,
-         `Filter set up (\\textmu m)` = Filter_Set_Up,
+         `Filter set up (μm)` = Filter_Set_Up,
          `Volume (L)` = L_Filtered) %>%
   mutate(`Volume digested for bulk As (L)` = round(L_digested, digits = 2),
          `Volume extracted for arsenolipids (L)` = round(L_extracted, digits = 0)) %>%
@@ -30,7 +31,7 @@ samp_info3 <- samp_info %>%
 
 # Mash them together
 samp_info_4 <- samp_info2 %>%
-  left_join(samp_info3, by = "Sample")
+  left_join(samp_info3) 
 
 # Write it out for Supplemental Table 1
 write_csv(samp_info_4, "Tables/ManuscriptReady/SuppTables/sample_descriptions_metadata.csv")

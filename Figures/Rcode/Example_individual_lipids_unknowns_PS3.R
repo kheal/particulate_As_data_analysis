@@ -7,6 +7,7 @@ library(fuzzyjoin)
 library(patchwork)
 library(ggrepel)
 library(CluMSID)
+round_any = function(x, accuracy, f=round){f(x/ accuracy) * accuracy}
 
 # Name your files ----
 icap_dat_file <- "Intermediates/ICP_combined.csv"
@@ -29,7 +30,8 @@ my_theme <- theme(strip.background = element_blank(),
                   axis.title = element_text(size = 8),
                   axis.text.x = element_text(size = 7),
                   axis.text.y = element_blank(),
-                  legend.position = "none")
+                  legend.position = "none",
+                  plot.margin = unit(c(3,3,3,3), "pt"))
 
 layout <- "
 AAABBBB
@@ -39,14 +41,13 @@ AAABBBB
 # Plot 1 = unknown 971 late in PS3-----
 sample_name <- "Smp_PS3_crude"
 sample_name_to_plot <- "ETNP-PS3"
-lipid_name_to_plot <- "unknown lipid with mz=971.5540"
+lipid_name_to_plot <- "AsSugPeL970"
 rt_lipid = 26.4
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass_mergedMS2.rds"
 mass = 971.5540
 icap_dat_sub <- icap_dat %>% filter(sampleID == sample_name) %>%
   filter(time > 8*60)
-
 
 ESI_dat <- xcmsRaw(ESI_dat_file,profstep=0.01, profmethod="bin",
                    profparam=list(),
@@ -66,6 +67,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -74,7 +79,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 15) | (mz> 450 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 20) )| (rank < 5) | (mz> 450 & rank < 18))
 
 p1a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -84,7 +89,8 @@ p1a <- ggplot() +
   scale_x_continuous("Time (min)", limits = c(25, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
-  my_theme
+  my_theme+
+  theme(axis.title.x = element_blank())
 
 p1b <- ggplot(data = MS2s, aes(x = mz,xend = mz, 
                                y = 0, yend = intensity)) +
@@ -110,13 +116,13 @@ p1b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
 
 p1 <- p1a + p1b + 
   plot_layout(design = layout)
-
+p1
 
 
 # Plot 2 = unknown 973 late in PS2-----
 sample_name <- "Smp_PS3_crude"
 sample_name_to_plot <- "ETNP-PS3"
-lipid_name_to_plot <- "unknown lipid with mz=973.5679"
+lipid_name_to_plot <- "AsSugPeL972"
 rt_lipid = 27
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass_mergedMS2.rds"
@@ -143,6 +149,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -151,7 +161,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 15) | (mz> 450 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 20) )| (rank < 5) | (mz> 450 & rank < 20))
 
 p2a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -161,7 +171,8 @@ p2a <- ggplot() +
   scale_x_continuous("Time (min)", limits = c(25, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
-  my_theme
+  my_theme+
+  theme(axis.title.x = element_blank())
 
 p2b <- ggplot(data = MS2s, aes(x = mz,xend = mz, 
                                y = 0, yend = intensity)) +
@@ -193,7 +204,7 @@ p2
 # Plot 3 = unknown 999 late in PS2-----
 sample_name <- "Smp_PS3_crude"
 sample_name_to_plot <- "ETNP-PS3"
-lipid_name_to_plot <- "unknown lipid with mz=999.5884"
+lipid_name_to_plot <- "AsSugPeL998"
 rt_lipid = 27.6
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass_mergedMS2.rds"
@@ -220,6 +231,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -228,7 +243,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 15) | (mz> 450 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 20) )| (rank < 5) | (mz> 450 & rank < 20))
 
 p3a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -238,7 +253,8 @@ p3a <- ggplot() +
   scale_x_continuous("Time (min)", limits = c(25, 32)) +
   scale_y_continuous("Intensity", limits = c(0, NA), expand = c(0, NA)) +
   labs(title = paste0(lipid_name_to_plot, " in ", sample_name_to_plot))+
-  my_theme
+  my_theme+
+  theme(axis.title.x = element_blank())
 
 p3b <- ggplot(data = MS2s, aes(x = mz,xend = mz, 
                                y = 0, yend = intensity)) +
@@ -270,7 +286,7 @@ p3
 # Plot 4 = unknown 1001 late in PS2-----
 sample_name <- "Smp_PS3_crude"
 sample_name_to_plot <- "ETNP-PS3"
-lipid_name_to_plot <- "unknown lipid with mz=1001.6018"
+lipid_name_to_plot <- "AsSugPeL1000"
 rt_lipid = 28.2
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_PS3_elute_highmass_mergedMS2.rds"
@@ -297,6 +313,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -305,7 +325,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 20) )| (rank < 15) | (mz> 450 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 20) )| (rank < 5) | (mz> 450 & rank < 20))
 
 p4a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -338,15 +358,6 @@ p4b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
   my_theme+
   theme(axis.title.x = element_blank())
 
-p4bp <- ggplot(data = MS2s, aes(x = mz,xend = mz, 
-                               y = 0, yend = intensity)) +
-  geom_segment(data = MS2s %>% 
-                 filter(has_As == TRUE), 
-               color = 'coral1', 
-               size = 1)+
-  geom_segment()
-
-
 p4 <- p4a + p4b + 
   plot_layout(design = layout)
 
@@ -355,10 +366,6 @@ p4 <- p4a + p4b +
 p6 <- p1/p2/p3/p4
 p6
 
-save_plot("Figures/Preliminary/PS3_unknowns.pdf", p6, 
-          base_width = 10, base_height = 12)
+save_plot("Figures/ManuscriptReady/PS3_unknowns.pdf", p6, 
+          base_width = 6, base_height = 7)
 
-# Save out a 
-#library(plotly)
-l <- plotly::ggplotly(p4bp)
-htmlwidgets::saveWidget(l, "unknown1001MS2.html")

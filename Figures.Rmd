@@ -38,9 +38,8 @@ remove(list = ls())
 ```
 
 
-# Figure of ALOHA unknowns for MS2 (Figure S2)
+# Figure of PS3 unknowns for MS2 (Figure S2)
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
-source('Figures/Rcode/Example_individual_lipids_unknowns_ALOHA.R')
+source('Figures/Rcode/Example_individual_lipids_unknowns_PS3.R')
 remove(list = ls())
-
 ```

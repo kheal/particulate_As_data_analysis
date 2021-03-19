@@ -7,6 +7,7 @@ library(fuzzyjoin)
 library(patchwork)
 library(ggrepel)
 library(CluMSID)
+round_any = function(x, accuracy, f=round){f(x/ accuracy) * accuracy}
 
 # Name your files ----
 icap_dat_file <- "Intermediates/ICP_combined.csv"
@@ -39,7 +40,7 @@ AAABBBB
 # Plot 3 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown lipid with mz=1001.4844"
+lipid_name_to_plot <- "unknown lipid with m/z = 1001.4844"
 rt_lipid = 20.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
@@ -66,6 +67,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -74,7 +79,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 10) )| (rank < 15) | (mz > 300 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 10) )| (rank < 5) | (mz > 300 & rank < 20))
 
 p3a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -102,7 +107,7 @@ p3b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 1000))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 1003))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
@@ -116,7 +121,7 @@ p3
 # Plot 4 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown lipid with mz=1003.5009"
+lipid_name_to_plot <- "unknown lipid with m/z = 1003.5009"
 rt_lipid = 21.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
@@ -143,6 +148,10 @@ MS2_time <- MS2s_mz@rt/60
 MS2_precursormass <- MS2s_mz@precursor
 MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
                intensity = as.numeric(MS2s_mz@spectrum[,2])) %>%
+  mutate(mz_round = round_any(mz, accuracy = 0.05)) %>%
+  group_by(mz_round) %>%
+  summarise(mz = weighted.mean(mz, intensity),
+            intensity = sum(intensity))%>%
   distance_left_join(MS2_library %>%
                        select(mz, Formula) %>%
                        unique(), max_dist = 0.02, by = "mz") %>%
@@ -151,7 +160,7 @@ MS2s <- tibble(mz = as.numeric(MS2s_mz@spectrum[,1]),
   mutate(rt = MS2_time)
 MS2s_top <- MS2s %>%
   mutate(rank = rank(-intensity)) %>%
-  filter(((has_As == TRUE) & (rank < 10) )| (rank < 15) | (mz > 300 & rank < 30))
+  filter(((has_As == TRUE) & (rank < 10) )| (rank < 5) | (mz > 300 & rank < 20))
 
 p4a <- ggplot() +
   geom_line(data = EIC_df, aes(x = rt_min, y = intensity))+
@@ -179,7 +188,7 @@ p4b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
                    size = 1.8, color = 'black',  min.segment.length = 0.35,
                    segment.color = 'grey80',
                    direction = "x")+
-  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 1000))+
+  scale_x_continuous("m/z", expand = c(0,NA), limits = c(50, 1004))+
   scale_y_continuous(element_blank(),  
                      limits=c(0, max(MS2s$intensity*1.15)), expand = c(0,NA))+  
   my_theme+
@@ -187,11 +196,12 @@ p4b <- ggplot(data = MS2s, aes(x = mz,xend = mz,
 
 p4 <- p4a + p4b + 
   plot_layout(design = layout)
-
+p4
 
 # Combine ALOHA unknowns -----
 p34 <- p3/p4
 p34
 
-save_plot("Figures/Preliminary/ALOHA_unknowns.pdf", p34, base_height = 6, base_width = 12)
+save_plot("Figures/ManuscriptReady/ALOHA_unknowns.pdf", p34, 
+          base_height = 5, base_width = 6)
 

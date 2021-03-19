@@ -7,6 +7,7 @@ library(fuzzyjoin)
 library(patchwork)
 library(ggrepel)
 library(CluMSID)
+library(ggtext)
 
 
 # Name your files ----
@@ -268,7 +269,7 @@ p3 <- (p3a + labs(tag = "C")) + p3b +
 # Plot 4 = unknown early in ALOHA -----
 sample_name <- "Smp_ALOHA_crude"
 sample_name_to_plot <- "ALOHA"
-lipid_name_to_plot <- "unknown lipid with mz=1003.5009"
+lipid_name_to_plot <- "unknown lipid with m/z = 1003.5009"
 rt_lipid = 21.8
 ESI_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass.mzXML"
 MS2_dat_file <- "RawDat/20201026_QE_secondLipidRun/201028_Smp_ALOHA_crude_highmass_mergedMS2.rds"
@@ -422,4 +423,4 @@ p6 <- p1 / p2 / p3 / p5 / p4
 p6
 
 save_plot("Figures/ManuscriptReady/Example_lipids_chromats_and_spectra.pdf", p6, 
-          base_width = 6, base_height = 9)
+          base_width = 6, base_height = 6.8)

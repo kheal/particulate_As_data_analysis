@@ -8,7 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(cowplot)
-library(here)
 ```
 
 # Main text table of quantitative summary
@@ -42,7 +41,7 @@ remove(list = ls())
 #Merge all the supplemental csv files into one big xcel file here
 ```{r, error = FALSE, warning=FALSE, message=FALSE}
 library(XLConnect) 
-file.remove("Tables/Manuscript_tables/SuppTables/Combined_SuppTables.xlsx")
+file.remove("Tables/ManuscriptReady/SuppTables/Combined_SuppTables.xlsx")
 
 #write out the order of the tables you want
 supp.tables <- 
