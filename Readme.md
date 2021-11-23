@@ -1,6 +1,6 @@
 # Read me
 
-This github repository is the data analysis portion associated with the in preparation manuscript by Heal *et. al* "Arsenolipids in the surface ocean". DOI pending.
+This github repository is the data analysis portion associated with the manuscript by Heal *et. al* "Diverse arsenic-containing lipids in the surface ocean", published in Limnology and Oceanography, DOI: 10.1002/lol2.10216.
 
 
 #### **Control.Rmd**
